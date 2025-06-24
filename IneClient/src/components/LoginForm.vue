@@ -7,6 +7,7 @@
       <div>
         <label class="block text-sm font-medium text-textMain mb-1">Email</label>
         <input
+          v-model="email"
           type="email"
           placeholder="you@example.com"
           class="w-full p-3 rounded bg-surface text-textMain placeholder-textMuted focus:outline-none focus:ring-2 focus:ring-primary"
@@ -16,6 +17,7 @@
       <div>
         <label class="block text-sm font-medium text-textMain mb-1">Password</label>
         <input
+          v-model="password"
           type="password"
           placeholder="••••••••"
           class="w-full p-3 rounded bg-surface text-textMain placeholder-textMuted focus:outline-none focus:ring-2 focus:ring-primary"
@@ -27,7 +29,8 @@
       </div>
 
       <button
-        class="w-full py-3 bg-primary text-dark font-semibold rounded hover:bg-secondary transition">
+        class="w-full py-3 bg-primary text-dark font-semibold rounded hover:bg-secondary transition"
+        @click="login">
         Log In
       </button>
 
@@ -35,6 +38,25 @@
         Need an account?
         <router-link to="/register" class="text-primary hover:underline">Register</router-link>
       </p>
+
+      <p class="mt-2 text-white">{{ store.loginMessage }}</p>
+
     </div>
   </div>
 </template>
+
+
+
+<script setup>
+import { ref } from 'vue'
+import { useUserStore } from '../stores/userStore';
+
+const store = useUserStore()
+const email = ref('')
+const password = ref('')
+
+function login() {
+  store.loginUser(email.value, password.value)
+}
+
+</script>
