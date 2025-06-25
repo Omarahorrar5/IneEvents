@@ -48,11 +48,12 @@
         <router-link to="/login" class="text-primary hover:underline">Login</router-link>
       </p>
 
+      <p class="text-white">{{ message }}</p>
 
       <h3 class="mt-4 text-white">Registered Users:</h3>
       <ul class="text-white">
-        <li v-for="u in store.users" :key="u.email">
-          {{ u.username }} | {{ u.email }}
+        <li v-for="user in users" :key="user.email">
+          {{ user.username }} | {{ user.email }}
         </li>
       </ul>
 
@@ -61,17 +62,39 @@
 </template>
 
 
-<script setup>
-import { ref } from 'vue'
-import { useUserStore } from '../stores/userStore';
 
-const store = useUserStore()
+<script setup>
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 
 const username = ref('')
 const email = ref('')
 const password = ref('')
+const users = ref([])
+const message = ref('')
 
-function register() {
-  store.registerUser(username.value, email.value, password.value)
+async function register() {
+  try {
+    const res = await axios.post('http://localhost:5000/api/register', {
+      username: username.value,
+      email: email.value,
+      password: password.value
+    })
+    
+    message.value = res.data.message
+    fetchUsers();
+  } 
+
+  catch (err) {
+    message.value = err.response?.data?.message || 'Error registering user'
+  }
 }
+
+async function fetchUsers() {
+  const res = await axios.get('http://localhost:5000/api/users')
+  users.value = res.data
+}
+
+onMounted(fetchUsers)
+
 </script>

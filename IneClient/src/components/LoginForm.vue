@@ -39,7 +39,7 @@
         <router-link to="/register" class="text-primary hover:underline">Register</router-link>
       </p>
 
-      <p class="mt-2 text-white">{{ store.loginMessage }}</p>
+      <p class="mt-2 text-white">{{ message }}</p>
 
     </div>
   </div>
@@ -49,14 +49,24 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useUserStore } from '../stores/userStore';
+import axios from 'axios'
 
-const store = useUserStore()
 const email = ref('')
 const password = ref('')
+const message = ref('')
 
-function login() {
-  store.loginUser(email.value, password.value)
+async function login() {
+  try {
+    const res = await axios.post('http://localhost:5000/api/login', {
+      email: email.value,
+      password: password.value
+    })
+    message.value = res.data.message
+  } 
+
+  catch (err) {
+    message.value = err.response?.data?.message || 'Login failed'
+  }
 }
 
 </script>

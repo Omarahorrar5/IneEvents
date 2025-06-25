@@ -1,11 +1,11 @@
 import express from 'express'
-import db from 'db.js'
+import db from '../db.js'
 
 const router = express.Router()
 
 //Register  
-router.post('/register', async (res, req) => {
-    const { username, email, password } = req.body 
+router.post('/register', async (req, res) => {
+    const { username, email, password } = req.body // <-- this receives the object sent by axios
 
     try {
         const exists = await db.query('select * from users where email = $1', [email])
@@ -25,7 +25,7 @@ router.post('/register', async (res, req) => {
 
 
 //login
-router.post('/login', async (res, req) => {
+router.post('/login', async (req, res) => {
     const { email, password } = req.body
 
     try {
