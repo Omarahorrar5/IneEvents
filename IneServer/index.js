@@ -1,10 +1,18 @@
-// index.js
-import db from './db.js';
+import express from 'express';
+import dotenv from 'dotenv';
+import authRoutes from './routes/auth.js';
+import cors from 'cors';
 
-db.query('SELECT NOW()')
-  .then(res => {
-    console.log('✅ Connected to DB:', res.rows[0]);
-  })
-  .catch(err => {
-    console.error('❌ Connection error:', err);
-  });
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(cors()); // Allow frontend to talk to backend
+app.use(express.json()); // Accept JSON requests
+
+app.use('/api', authRoutes); // Use your /api/register, /api/login, etc.
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});
