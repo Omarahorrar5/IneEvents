@@ -49,19 +49,9 @@
       </p>
 
       <p class="text-white">{{ message }}</p>
-
-      <h3 class="mt-4 text-white">Registered Users:</h3>
-      <ul class="text-white">
-        <li v-for="user in users" :key="user.email">
-          {{ user.username }} | {{ user.email }}
-        </li>
-      </ul>
-
     </div>
   </div>
 </template>
-
-
 
 <script setup>
 import { ref, onMounted } from 'vue'
