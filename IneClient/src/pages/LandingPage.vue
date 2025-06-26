@@ -13,8 +13,8 @@
 </template>
 
 <script setup>
-import Navbar from '../components/Navbar.vue';
-import WelcomeMessage from '../components/WelcomeMessage.vue';
+import Navbar from '../components/Landing/Navbar.vue';
+import WelcomeMessage from '../components/Landing/WelcomeMessage.vue';
 </script>
 
 <style>

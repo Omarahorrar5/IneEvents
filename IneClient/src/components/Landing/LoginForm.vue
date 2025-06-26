@@ -51,6 +51,10 @@
 import { ref } from 'vue'
 import axios from 'axios'
 
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 const email = ref('')
 const password = ref('')
 const message = ref('')
@@ -61,7 +65,10 @@ async function login() {
       email: email.value,
       password: password.value
     })
+
     message.value = res.data.message
+
+    router.push('/home')
   } 
 
   catch (err) {

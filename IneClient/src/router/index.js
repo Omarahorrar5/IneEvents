@@ -1,8 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
+
 import LandingPage from '../pages/LandingPage.vue';
-import LoginForm from '../components/LoginForm.vue';
-import RegisterForm from '../components/RegisterForm.vue';
-import ResetPassword from '../components/ResetPassword.vue';
+import HomePage from '../pages/HomePage.vue';
+
+import LoginForm from '../components/Landing/LoginForm.vue';
+import RegisterForm from '../components/Landing/RegisterForm.vue';
+import ResetPassword from '../components/Landing/ResetPassword.vue';
 
 const routes = [
   {
@@ -15,6 +18,11 @@ const routes = [
       { path: 'register', component: RegisterForm },
       { path: 'resetpassword', component: ResetPassword }
     ]
+  },
+
+  {
+    path: '/home',
+    component: HomePage
   }
 ];
 
