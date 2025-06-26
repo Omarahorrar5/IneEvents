@@ -48,7 +48,7 @@
         <router-link to="/login" class="text-primary hover:underline">Login</router-link>
       </p>
 
-      <p class="text-white">{{ message }}</p>
+      <p class="mt-2 text-success font-medium">{{ message }}</p>
     </div>
   </div>
 </template>
