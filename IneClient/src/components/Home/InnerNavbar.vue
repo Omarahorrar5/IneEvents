@@ -6,8 +6,11 @@
     </div>
 
     <ul class="flex space-x-6 text-textMain font-medium text-base">
-      <li><a href="#home" class="hover:text-primary transition">Home</a></li>
-      <li><a href="#events" class="hover:text-primary transition">Events</a></li>
+      <li><a href="#Home" class="hover:text-primary transition">Home</a></li>
+      <li><a href="#Events" class="hover:text-primary transition">Events</a></li>
+      <li><a href="#About" class="hover:text-primary transition">About</a></li>
+      <li><a href="#Contact" class="hover:text-primary transition">Contact</a></li>
+      <li><a href="#Logout" class="hover:text-danger transition">Logout</a></li>
     </ul>
   </nav>
 </template>
