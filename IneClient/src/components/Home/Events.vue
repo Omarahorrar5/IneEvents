@@ -1,0 +1,30 @@
+<template>
+    <div class="flex gap-4">
+        <EventCard 
+            title="FinTech Hackathon: 2030 World Cup Challenges"
+            :image="EnsiasFinTech"
+            description="Compete in world-class FinTech challenges at the ENSIAS Hackathon."
+            location="ENSIAS, Rabat"
+            date="2025-10-13T09:00:00"
+        />
+        <EventCard 
+            title="FinTech Hackathon: 2030 World Cup Challenges"
+            :image="EnsiasFinTech"
+            description="Compete in world-class FinTech challenges at the ENSIAS Hackathon."
+            location="ENSIAS, Rabat"
+            date="2025-10-13T09:00:00"
+        />
+        <EventCard 
+            title="FinTech Hackathon: 2030 World Cup Challenges"
+            :image="EnsiasFinTech"
+            description="Compete in world-class FinTech challenges at the ENSIAS Hackathon."
+            location="ENSIAS, Rabat"
+            date="2025-10-13T09:00:00"
+        />
+    </div>
+</template>
+
+<script setup>
+import EnsiasFinTech from '../../assets/events/EnsiasFinTech.png'
+import EventCard from './EventCard.vue';
+</script>
