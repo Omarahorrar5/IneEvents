@@ -10,7 +10,7 @@
       <li><a href="#Events" class="hover:text-primary transition">Events</a></li>
       <li><a href="#About" class="hover:text-primary transition">About</a></li>
       <li><a href="#Contact" class="hover:text-primary transition">Contact</a></li>
-      <li><a href="#Logout" class="hover:text-danger transition">Logout</a></li>
+      <li><router-link to="/" class="hover:text-danger transition">Logout</router-link></li>
     </ul>
   </nav>
 </template>
