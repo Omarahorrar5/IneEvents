@@ -4,7 +4,7 @@
 
         <Hero />
 
-        <div class="flex gap-2">
+        <div class="flex gap-3">
             <Filters />
             <Events />
         </div>
