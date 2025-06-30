@@ -1,5 +1,26 @@
 <template>
-    <div class="flex gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <EventCard 
+            title="FinTech Hackathon: 2030 World Cup Challenges"
+            :image="EnsiasFinTech"
+            description="Compete in world-class FinTech challenges at the ENSIAS Hackathon."
+            location="ENSIAS, Rabat"
+            date="2025-10-13T09:00:00"
+        />
+        <EventCard 
+            title="FinTech Hackathon: 2030 World Cup Challenges"
+            :image="EnsiasFinTech"
+            description="Compete in world-class FinTech challenges at the ENSIAS Hackathon."
+            location="ENSIAS, Rabat"
+            date="2025-10-13 09:00:00"
+        />
+        <EventCard 
+            title="FinTech Hackathon: 2030 World Cup Challenges"
+            :image="EnsiasFinTech"
+            description="Compete in world-class FinTech challenges at the ENSIAS Hackathon."
+            location="ENSIAS, Rabat"
+            date="2025-10-13T09:00:00"
+        />
         <EventCard 
             title="FinTech Hackathon: 2030 World Cup Challenges"
             :image="EnsiasFinTech"
