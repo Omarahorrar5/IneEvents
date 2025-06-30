@@ -1,62 +1,32 @@
 <template>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <EventCard 
-            title="FinTech Hackathon: 2030 World Cup Challenges"
-            :image="EnsiasFinTech"
-            description="Compete in world-class FinTech challenges at the ENSIAS Hackathon."
-            location="ENSIAS, Rabat"
-            date="2025-10-13T09:00:00"
-        />
-        <EventCard 
-            title="FinTech Hackathon: 2030 World Cup Challenges"
-            :image="EnsiasFinTech"
-            description="Compete in world-class FinTech challenges at the ENSIAS Hackathon."
-            location="ENSIAS, Rabat"
-            date="2025-10-13 09:00:00"
-        />
-        <EventCard 
-            title="FinTech Hackathon: 2030 World Cup Challenges"
-            :image="EnsiasFinTech"
-            description="Compete in world-class FinTech challenges at the ENSIAS Hackathon."
-            location="ENSIAS, Rabat"
-            date="2025-10-13T09:00:00"
-        />
-        <EventCard 
-            title="FinTech Hackathon: 2030 World Cup Challenges"
-            :image="EnsiasFinTech"
-            description="Compete in world-class FinTech challenges at the ENSIAS Hackathon."
-            location="ENSIAS, Rabat"
-            date="2025-10-13T09:00:00"
-        />
-        <EventCard 
-            title="FinTech Hackathon: 2030 World Cup Challenges"
-            :image="EnsiasFinTech"
-            description="Compete in world-class FinTech challenges at the ENSIAS Hackathon."
-            location="ENSIAS, Rabat"
-            date="2025-10-13T09:00:00"
-        />
-        <EventCard 
-            title="FinTech Hackathon: 2030 World Cup Challenges"
-            :image="EnsiasFinTech"
-            description="Compete in world-class FinTech challenges at the ENSIAS Hackathon."
-            location="ENSIAS, Rabat"
-            date="2025-10-13T09:00:00"
+            v-for="event in events"
+            :key="event.id"
+            :title="event.title"
+            :image="event.image_path"
+            :description="event.description"
+            :location="`${event.school}, ${event.city}`"
+            :date="event.date"
         />
     </div>
 </template>
 
 <script setup>
-import EnsiasFinTech from '../../assets/events/EnsiasFinTech.png'
-import EventCard from './EventCard.vue';
-
 import { ref } from 'vue'
 import axios from 'axios'
+import { onMounted } from 'vue';
+import EventCard from './EventCard.vue';
 
 const events = ref([])
 
 async function fetchEvents() {
-    const res = await axios.post('http://localhost:5000/api/events');
+    const res = await axios.get('http://localhost:5000/api/events');
     events.value = res.data
 }
+
+onMounted(() => {
+    fetchEvents()
+})
 
 </script>
