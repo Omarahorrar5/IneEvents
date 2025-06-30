@@ -48,4 +48,15 @@
 <script setup>
 import EnsiasFinTech from '../../assets/events/EnsiasFinTech.png'
 import EventCard from './EventCard.vue';
+
+import { ref } from 'vue'
+import axios from 'axios'
+
+const events = ref([])
+
+async function fetchEvents() {
+    const res = await axios.post('http://localhost:5000/api/events');
+    events.value = res.data
+}
+
 </script>
