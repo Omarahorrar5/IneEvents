@@ -4,7 +4,7 @@
 
         <Hero @search="handleSearch"/>
 
-        <div class="flex gap-3">
+        <div class="flex gap-5">
             <Filters />
             <Events :searchTerm="searchTerm"/>
         </div>

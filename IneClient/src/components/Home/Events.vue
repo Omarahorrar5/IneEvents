@@ -3,7 +3,7 @@
         <p class="text-xl text-textMuted">No events found matching your search.</p>
     </div>
     
-    <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <EventCard 
             v-for="event in filteredEvents"
             :key="event.id"

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-1/4 p-4 text-white rounded h-full ml-1">
+  <div class="w-1/5 p-4 text-white rounded h-full ml-1">
     <h2 class="text-xl font-bold mb-4">Filters</h2>
 
     <div class="mb-4">
