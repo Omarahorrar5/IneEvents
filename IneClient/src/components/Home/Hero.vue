@@ -8,6 +8,21 @@
         type="text"
         placeholder="Search for events..."
         class="w-full max-w-md p-3 rounded bg-white shadow focus:outline-none focus:ring-2 focus:ring-primary"
+        v-model="searchTerm"
+        @input="handleSearchInput"
         />
   </div>
 </template>
+
+<script setup> 
+import { ref } from 'vue'
+
+const searchTerm = ref('')
+
+const emit = defineEmits(['search'])
+
+const handleSearchInput = () => {
+  emit('search', searchTerm.value)
+}
+
+</script>
