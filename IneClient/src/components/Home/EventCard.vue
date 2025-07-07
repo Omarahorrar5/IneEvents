@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full max-w-xs h-[26rem] bg-white rounded shadow-lg overflow-hidden">
+  <div class="flex flex-col w-full max-w-xs h-[26rem] bg-white rounded shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
     <!-- Fixed height image -->
     <div class="w-full h-36 bg-top bg-cover rounded-t shrink-0" :style="`background-image: url(${image})`"></div>
 
