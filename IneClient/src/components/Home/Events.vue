@@ -28,6 +28,15 @@ const props = defineProps({
     searchTerm: {
         type: String,
         default: ''
+    },
+    filters: {
+        type: Object,
+        default: () => ({
+            type: 'All',
+            city: 'All',
+            school: 'All',
+            date: 'All',
+        })
     }
 })
 
@@ -37,18 +46,44 @@ async function fetchEvents() {
 }
 
 const filteredEvents = computed(() => {
-    if (!props.searchTerm) {
-        return events.value
+    let filtered = events.value
+
+    if (props.searchTerm) {
+        const searchLower = props.searchTerm.toLowerCase()
+        filtered = filtered.filter(event =>
+            event.title.toLowerCase().includes(searchLower) ||
+            event.description.toLowerCase().includes(searchLower) ||
+            event.city.toLowerCase().includes(searchLower) ||
+            event.school.toLowerCase().includes(searchLower) ||
+            event.organizer.toLowerCase().includes(searchLower)
+        )
     }
 
-    const searchLower = props.searchTerm.toLowerCase()
-    return events.value.filter(event =>
-        event.title.toLowerCase().includes(searchLower) ||
-        event.description.toLowerCase().includes(searchLower) ||
-        event.city.toLowerCase().includes(searchLower) ||
-        event.school.toLowerCase().includes(searchLower) ||
-        event.organizer.toLowerCase().includes(searchLower)
-    )
+    if (props.filters.type && props.filters.type !== 'All') {
+        filtered = filtered.filter(event => {
+            return event.type === props.filters.type
+        })
+    }
+
+    if (props.filters.city && props.filters.city !== 'All') {
+        filtered = filtered.filter(event => {
+            return event.city === props.filters.city
+        })
+    }
+
+    if (props.filters.school && props.filters.school !== 'All') {
+        filtered = filtered.filter(event => {
+            return event.school === props.filters.school
+        })
+    }
+
+    if (props.filters.date && props.filters.date !== 'All') {
+        filtered = filtered.filter(event => {
+            return event.date === props.filters.date
+        })
+    }
+
+    return filtered
 })
 
 onMounted(() => {

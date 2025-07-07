@@ -5,8 +5,8 @@
         <Hero @search="handleSearch"/>
 
         <div class="flex gap-5">
-            <Filters />
-            <Events :searchTerm="searchTerm"/>
+            <Filters @filters-changed="handleFiltersChanged"/>
+            <Events :searchTerm="searchTerm" :filters="filters"/>
         </div>
     </div>
 </template>
@@ -21,8 +21,19 @@ import { ref } from 'vue'
 
 const searchTerm = ref('')
 
+const filters = ref({
+    type: 'All',
+    city: 'All',
+    school: 'All',
+    date: '',
+})
+
 const handleSearch = (term) => {
     searchTerm.value = term
+}
+
+const handleFiltersChanged = (newFilters) => {
+    filters.value = newFilters
 }
 
 </script>
