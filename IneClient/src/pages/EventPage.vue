@@ -1,10 +1,15 @@
 <template>
     <div class="h-screen bg-surface m-0 p-0 overflow-x-hidden">
         <Navbar />
-        <div>
-            <Photo />
 
-            <div>
+        <div class="flex h-full">
+            <!-- Left side - Image (50% width) -->
+            <div class="w-1/2 h-full">
+                <Photo />
+            </div>
+
+            <!-- Right side - Content (50% width) -->
+            <div class="w-1/2 h-full flex flex-col justify-start pr-8">
                 <Infos />
                 <Description />
                 <RegisterButton />

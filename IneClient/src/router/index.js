@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import LandingPage from '../pages/LandingPage.vue';
 import HomePage from '../pages/HomePage.vue';
+import EventPage from '../pages/EventPage.vue';
 
 import LoginForm from '../components/Landing/LoginForm.vue';
 import RegisterForm from '../components/Landing/RegisterForm.vue';
@@ -23,6 +24,11 @@ const routes = [
   {
     path: '/home',
     component: HomePage
+  },
+
+  {
+    path: '/event',
+    component: EventPage
   }
 ];
 
