@@ -1,7 +1,11 @@
 <template>
   <div class="min-h-screen px-6 py-* flex items-center justify-center flex-1">
 
-    <div class="bg-card p-8 rounded-xl shadow-neon w-full max-w-xl mr-4 md:mr-12 space-y-6">
+    <form
+      @submit.prevent="login"
+      class="bg-card p-8 rounded-xl shadow-neon w-full max-w-xl mr-4 md:mr-12 space-y-6"
+    >
+
       <h2 class="text-2xl font-semibold text-textMain">Login to your account</h2>
 
       <div>
@@ -41,7 +45,7 @@
 
       <p class="mt-2 text-success font-medium">{{ message }}</p>
 
-    </div>
+    </form>
   </div>
 </template>
 

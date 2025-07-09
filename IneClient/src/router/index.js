@@ -29,7 +29,7 @@ const routes = [
   {
     path: '/event/:id',
     component: EventPage
-  },
+  }
 ];
 
 const router = createRouter({
