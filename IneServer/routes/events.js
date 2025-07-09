@@ -26,6 +26,7 @@ router.get('/events/:id', async (req, res) => {
         res.json(result.rows[0])
     }
     
+    
     catch (err) {
         res.status(500).json({ message: 'Could not get event', error: err.message })
     }

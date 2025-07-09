@@ -27,9 +27,9 @@ const routes = [
   },
 
   {
-    path: '/event',
+    path: '/event/:id',
     component: EventPage
-  }
+  },
 ];
 
 const router = createRouter({

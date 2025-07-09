@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="`/event`"
+    :to="`/event/${id}`"
     class="flex flex-col w-full max-w-xs h-[26rem] bg-white rounded shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:-translate-y-1 no-underline text-inherit"
   >    
 
@@ -38,6 +38,7 @@
 import { computed } from 'vue'
 
 const props = defineProps({
+  id: [String, Number],
   title: String,
   image: String,
   description: String,

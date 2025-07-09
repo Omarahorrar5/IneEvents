@@ -1,13 +1,19 @@
 <template>
   <div class="photo-container">
     <img 
-      src="/events/inptJNJD.png" 
+      :src="image" 
       alt="Event Photo" 
       class="w-full h-full pl-10 object-cover rounded-lg shadow-lg"
       loading="lazy"
     />
   </div>
 </template>
+
+<script setup>
+defineProps({
+  image: String // /events/inptJNJD.png
+})
+</script>
 
 <style scoped>
 .photo-container {

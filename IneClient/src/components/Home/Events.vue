@@ -7,6 +7,7 @@
         <EventCard 
             v-for="event in filteredEvents"
             :key="event.id"
+            :id="event.id"
             :title="event.title"
             :image="event.image_path"
             :description="event.description"
