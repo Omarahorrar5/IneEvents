@@ -5,7 +5,7 @@
     <div v-if="loading" class="text-white text-center mt-10">Loading...</div>
     <div v-else-if="error" class="text-red-500 text-center mt-10">{{ error }}</div>
     
-    <div v-else class="flex h-full">
+    <div v-else class="flex h-full gap-12">
       <div class="w-1/2 h-full">
         <Photo :image="event.image_path" />
       </div>
