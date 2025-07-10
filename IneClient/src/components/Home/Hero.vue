@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center h-[250px] bg-gradient-to-b from-surface to-[#000D19] relative px-6">
+  <div class="flex flex-col items-center justify-center h-[250px] bg-gradient-to-b from-surface to-[#000A14] relative px-6">
     <h1 class="text-4xl font-bold text-textMain mb-4 text-center">
       The Biggest Engineering Events Manager
     </h1>
