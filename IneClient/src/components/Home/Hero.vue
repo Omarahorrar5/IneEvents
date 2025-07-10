@@ -18,7 +18,7 @@
       <!-- Absolutely positioned button on the right edge of the screen -->
       <button
         @click="openAddEventDialog"
-        class="absolute right-0 top-1/2 translate-x-[300%] -translate-y-1/2 py-3 px-8 bg-primary font-semibold rounded hover:bg-secondary transition"
+        class="absolute right-0 top-1/2 translate-x-[300%] -translate-y-1/2 py-3 px-8 text-dark bg-primary font-semibold rounded hover:bg-secondary transition"
       >
         Add event
       </button>
