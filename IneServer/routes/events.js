@@ -47,4 +47,22 @@ router.post('/events/create', async (req, res) => {
     }
 })
 
+router.post('/events/update/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const {title, description, image_path, type, school, city, date, organizer} = req.body
+
+        const result = await db.query(`update events set title = $1, description = $2, image_path = $3, type = $4, school = $5,
+            city = $6, date = $7, organizer = $8 where id = $9 returning *`, 
+            [title, description, image_path, type, school, city, date, organizer, id])
+
+        res.status(200).json({ message: 'Event updated successfully', event: result.rows[0] });
+    }
+
+    catch (err) {
+        res.status(500).json({ message: 'Could not update event', error: err.message });
+    }
+})
+
 export default router

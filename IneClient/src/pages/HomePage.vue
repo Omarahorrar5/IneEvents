@@ -26,6 +26,7 @@ import { ref } from 'vue'
 
 const searchTerm = ref('')
 const isAddEventDialogOpen = ref(false)
+
 const filters = ref({
     type: 'All',
     city: 'All',
