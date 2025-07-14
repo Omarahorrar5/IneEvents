@@ -46,6 +46,7 @@
           v-if="showDropdown"
           class="absolute bottom-full right-0 mb-1 w-32 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50"
         >
+        
           <button
             @click="handleEdit"
             class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
@@ -55,6 +56,17 @@
             </svg>
             Edit
           </button>
+
+          <button
+            @click="handleDelete"
+            class="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200"
+          >
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+            Delete
+          </button>
+
         </div>
       </div>
     </div>
@@ -73,7 +85,7 @@ const props = defineProps({
   date: String
 })
 
-const emit = defineEmits(['edit'])
+const emit = defineEmits(['edit', 'delete'])
 
 const showDropdown = ref(false)
 
@@ -89,6 +101,11 @@ const toggleDropdown = () => {
 const handleEdit = () => {
   showDropdown.value = false
   emit('edit', props.id)
+}
+
+const handleDelete = () => {
+  showDropdown.value = false
+  emit('delete', props.id)
 }
 
 // Close dropdown when clicking outside

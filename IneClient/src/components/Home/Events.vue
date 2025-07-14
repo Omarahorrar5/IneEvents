@@ -2,9 +2,9 @@
     <div v-if="filteredEvents.length === 0" class="text-center py-12">
         <p class="text-xl text-textMuted">No events found matching your search.</p>
     </div>
-    
+   
     <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <EventCard 
+        <EventCard
             v-for="event in filteredEvents"
             :key="event.id"
             :id="event.id"
@@ -14,15 +14,24 @@
             :location="`${event.school}, ${event.city}`"
             :date="event.date"
             @edit="handleEditEvent"
+            @delete="handleDeleteEvent"
         />
     </div>
-
+    
     <!-- Edit Dialog -->
-    <EditEventDialog 
+    <EditEventDialog
         :isOpen="showEditDialog"
         :eventData="selectedEvent"
         @close="closeEditDialog"
         @event-updated="onEventUpdated"
+    />
+    
+    <!-- Delete Dialog -->
+    <DeleteEventDialog
+        :isOpen="showDeleteDialog"
+        :eventData="selectedEvent"
+        @close="closeDeleteDialog"
+        @event-deleted="onEventDeleted"
     />
 </template>
 
@@ -30,11 +39,13 @@
 import { ref, computed } from 'vue'
 import axios from 'axios'
 import { onMounted } from 'vue';
-import EventCard from './EventCard.vue'; 
+import EventCard from './EventCard.vue';
 import EditEventDialog from '../Event/EditEventDialog.vue';
+import DeleteEventDialog from '../Event/DeleteEventDialog.vue';
 
 const events = ref([])
 const showEditDialog = ref(false)
+const showDeleteDialog = ref(false)
 const selectedEvent = ref(null)
 
 const props = defineProps({
@@ -64,8 +75,19 @@ const handleEditEvent = (eventId) => {
     showEditDialog.value = true
 }
 
+const handleDeleteEvent = (eventId) => {
+    // Find the event to delete
+    selectedEvent.value = events.value.find(event => event.id === eventId)
+    showDeleteDialog.value = true
+}
+
 const closeEditDialog = () => {
     showEditDialog.value = false
+    selectedEvent.value = null
+}
+
+const closeDeleteDialog = () => {
+    showDeleteDialog.value = false
     selectedEvent.value = null
 }
 
@@ -75,6 +97,11 @@ const onEventUpdated = (updatedEvent) => {
     if (index !== -1) {
         events.value[index] = { ...events.value[index], ...updatedEvent }
     }
+}
+
+const onEventDeleted = (deletedEventId) => {
+    // Remove the event from the array
+    events.value = events.value.filter(event => event.id !== deletedEventId)
 }
 
 const filteredEvents = computed(() => {
