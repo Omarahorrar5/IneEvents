@@ -13,8 +13,17 @@
             :description="event.description"
             :location="`${event.school}, ${event.city}`"
             :date="event.date"
+            @edit="handleEditEvent"
         />
     </div>
+
+    <!-- Edit Dialog -->
+    <EditEventDialog 
+        :isOpen="showEditDialog"
+        :eventData="selectedEvent"
+        @close="closeEditDialog"
+        @event-updated="onEventUpdated"
+    />
 </template>
 
 <script setup>
@@ -22,8 +31,11 @@ import { ref, computed } from 'vue'
 import axios from 'axios'
 import { onMounted } from 'vue';
 import EventCard from './EventCard.vue'; 
+import EditEventDialog from '../Event/EditEventDialog.vue';
 
 const events = ref([])
+const showEditDialog = ref(false)
+const selectedEvent = ref(null)
 
 const props = defineProps({
     searchTerm: {
@@ -44,6 +56,25 @@ const props = defineProps({
 async function fetchEvents() {
     const res = await axios.get('http://localhost:5000/api/events');
     events.value = res.data
+}
+
+const handleEditEvent = (eventId) => {
+    // Find the event to edit
+    selectedEvent.value = events.value.find(event => event.id === eventId)
+    showEditDialog.value = true
+}
+
+const closeEditDialog = () => {
+    showEditDialog.value = false
+    selectedEvent.value = null
+}
+
+const onEventUpdated = (updatedEvent) => {
+    // Update the event in the array
+    const index = events.value.findIndex(event => event.id === updatedEvent.id)
+    if (index !== -1) {
+        events.value[index] = { ...events.value[index], ...updatedEvent }
+    }
 }
 
 const filteredEvents = computed(() => {
@@ -90,5 +121,4 @@ const filteredEvents = computed(() => {
 onMounted(() => {
     fetchEvents()
 })
-
 </script>

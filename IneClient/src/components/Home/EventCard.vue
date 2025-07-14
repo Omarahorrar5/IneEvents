@@ -4,6 +4,7 @@
       :to="`/event/${id}`"
       class="flex flex-col w-full max-w-xs h-[26rem] bg-white rounded shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:-translate-y-1 no-underline text-inherit"
     >    
+      <!-- Fixed height image -->
       <div class="w-full h-36 bg-top bg-cover rounded-t shrink-0" :style="`background-image: url(${image})`"></div>
       <div class="flex flex-col w-full md:flex-row flex-grow overflow-hidden">
         <!-- Date column -->
@@ -12,7 +13,6 @@
           <div class="md:text-6xl">{{ formattedDay }}</div>
           <div class="md:text-xl">{{ formattedTime }}</div>
         </div>
-
         <!-- Text content -->
         <div class="p-4 font-normal text-gray-800 md:w-3/4 flex flex-col overflow-hidden">
           <h1 class="mb-2 text-2xl font-bold leading-tight tracking-tight text-gray-800">
@@ -26,7 +26,6 @@
             {{ location }}
           </div>
         </div>
-
       </div>
     </router-link>
 
@@ -56,17 +55,6 @@
             </svg>
             Edit
           </button>
-
-          <button
-            @click="handleDelete"
-            class="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200"
-          >
-            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-            </svg>
-            Delete
-          </button>
-          
         </div>
       </div>
     </div>
@@ -85,7 +73,7 @@ const props = defineProps({
   date: String
 })
 
-const emit = defineEmits(['edit', 'delete'])
+const emit = defineEmits(['edit'])
 
 const showDropdown = ref(false)
 
@@ -101,11 +89,6 @@ const toggleDropdown = () => {
 const handleEdit = () => {
   showDropdown.value = false
   emit('edit', props.id)
-}
-
-const handleDelete = () => {
-  showDropdown.value = false
-  emit('delete', props.id)
 }
 
 // Close dropdown when clicking outside
