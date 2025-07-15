@@ -7,6 +7,7 @@ import EventPage from '../pages/EventPage.vue';
 import LoginForm from '../components/Landing/LoginForm.vue';
 import RegisterForm from '../components/Landing/RegisterForm.vue';
 import ResetPassword from '../components/Landing/ResetPassword.vue';
+import AboutPage from '../pages/AboutPage.vue';
 
 const routes = [
   {
@@ -29,6 +30,11 @@ const routes = [
   {
     path: '/event/:id',
     component: EventPage
+  }, 
+ 
+  {
+    path: '/about',
+    component: AboutPage
   }
 ];
 
