@@ -8,12 +8,6 @@
       class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg relative max-h-[90vh] overflow-y-auto"
       @click.stop
     >
-      <button
-        @click="closeDialog"
-        class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl font-bold w-8 h-8 flex items-center justify-center"
-      >
-        X
-      </button>
       
       <h2 class="text-xl font-semibold mb-4">Add New Event</h2>
       
@@ -91,13 +85,14 @@
       <div class="flex gap-2 justify-end">
         <button
           @click="closeDialog"
-          class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition"
+          class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition font-semibold"
           :disabled="loading"
         >
           Cancel
         </button>
+
         <button
-          class="px-4 py-2 bg-primary text-dark rounded hover:bg-secondary transition"
+          class="px-4 py-2 bg-primary text-dark rounded hover:bg-secondary transition font-semibold"
           @click="addNewEvent"
           :disabled="loading"
         >
