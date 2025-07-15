@@ -6,8 +6,8 @@
     </div>
 
     <ul class="flex space-x-6 text-textMain font-medium text-base">
-      <li><a href="#about" class="hover:text-primary transition">About</a></li>
-      <li><a href="#contact" class="hover:text-primary transition">Contact</a></li>
+      <li><router-link to="/about" class="hover:text-primary transition">About</router-link></li>
+      <li><router-link to="/contact" class="hover:text-primary transition">Contact</router-link></li>
     </ul>
   </nav>
 </template>

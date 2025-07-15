@@ -8,8 +8,8 @@
 
     <ul class="flex space-x-6 text-textMain font-medium text-base">
       <li><router-link to="/home" class="hover:text-primary transition">Home</router-link></li>
-      <li><a href="#About" class="hover:text-primary transition">About</a></li>
-      <li><a href="#Contact" class="hover:text-primary transition">Contact</a></li>
+      <li><router-link to="/about" class="hover:text-primary transition">About</router-link></li>
+      <li><router-link to="/Contact" class="hover:text-primary transition">Contact</router-link></li>
       <li><router-link to="/" class="hover:text-danger transition">Logout</router-link></li>
     </ul>
   </nav>
