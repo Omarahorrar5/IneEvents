@@ -67,7 +67,7 @@
               placeholder="Enter your email" 
               class="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-textMuted focus:border-primary focus:outline-none"
             >
-            <button class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+            <button class="bg-primary hover:bg-primary/90 text-dark px-6 py-3 rounded-lg font-semibold transition-colors">
               Subscribe
             </button>
           </div>

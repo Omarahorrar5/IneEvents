@@ -13,9 +13,13 @@
             We're here to change that. Our platform centralizes all engineering events from schools across Morocco, making it easy for students, professionals, and enthusiasts to discover, track, and participate in the opportunities that matter most to them.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 mt-8">
-            <router-link to="/" class="bg-primary hover:bg-primary/90 text-dark px-8 py-3 rounded-lg font-semibold transition-colors">
-              Join Our Community
-            </router-link>
+            <button 
+                @click="scrollToTop" 
+                class="bg-primary hover:bg-primary/90 text-dark px-8 py-3 rounded-lg font-semibold transition-colors"
+                >
+                Join Our Community
+            </button>
+
             <button class="border border-white/20 hover:border-primary text-white px-8 py-3 rounded-lg font-semibold transition-colors">
               Partner With Us
             </button>
@@ -48,3 +52,12 @@
     </div>
   </section>
 </template>
+
+<script setup>
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+};
+</script>
