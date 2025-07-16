@@ -13,6 +13,8 @@
           :isOpen="isAddEventDialogOpen" 
           @close="closeAddEventDialog"
         />
+
+        <Footer />
     </div>
 </template>
 
@@ -22,6 +24,7 @@ import Hero from '../components/Home/Hero.vue';
 import Events from '../components/Home/Events.vue';
 import Filters from '../components/Home/Filters.vue';
 import AddEventDialog from '../components/Event/AddEventDialog.vue';
+import Footer from '../components/Home/Footer.vue';
 import { ref } from 'vue'
 
 const searchTerm = ref('')
