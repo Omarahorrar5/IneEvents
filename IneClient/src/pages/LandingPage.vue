@@ -3,7 +3,7 @@
     <Navbar />
 
     <!-- Main Landing Section -->
-    <div class="min-h-screen flex w-full max-w-7xl mx-auto">
+    <div id="home" class="min-h-screen flex w-full max-w-7xl mx-auto pt-16">
       <WelcomeMessage />
       
       <transition name="fade" mode="out-in">

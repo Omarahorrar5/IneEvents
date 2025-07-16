@@ -2,7 +2,7 @@
   <section class="min-h-screen flex items-center justify-center px-8 py-20">
     <div class="max-w-6xl mx-auto text-center">
       <div class="mb-8">
-        <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">
+        <h1 class="text-5xl md:text-7xl font-bold text-white mb-10">
           About <span class="text-primary">IneEvents</span>
         </h1>
         <p class="text-xl md:text-2xl text-textMuted leading-relaxed max-w-4xl mx-auto">
