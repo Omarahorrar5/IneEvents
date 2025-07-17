@@ -7,8 +7,11 @@
           <div class="flex items-center space-x-2 mb-6">
             <span class="text-2xl font-bold text-white">IneEvents</span>
           </div>
+          <p class="text-textMuted mb-4 max-w-md">
+            Connecting Morocco's engineering community through comprehensive event discovery and tracking.
+          </p>
           <p class="text-textMuted mb-6 max-w-md">
-            Connecting Morocco's engineering community through comprehensive event discovery and tracking. Stay informed, stay ahead.
+            Stay informed, stay ahead.
           </p>
           <div class="flex space-x-4">
             <a href="https://www.linkedin.com/in/omar-ahorrar-02a5a9244/" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-primary/20 transition-colors">
@@ -29,7 +32,6 @@
           <h3 class="text-white font-semibold mb-6">Quick Links</h3>
           <ul class="space-y-3">
             <li><router-link to="/" class="text-textMuted hover:text-primary transition-colors">Home</router-link></li>
-            <li><a href="#" class="text-textMuted hover:text-primary transition-colors">Events</a></li>
             <li><a href="#" class="text-textMuted hover:text-primary transition-colors">Schools</a></li>
             <li><router-link to="/about" class="text-textMuted hover:text-primary transition-colors">About</router-link></li>
             <li><router-link to="/contact" class="text-textMuted hover:text-primary transition-colors">Contact</router-link></li>
