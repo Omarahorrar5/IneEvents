@@ -26,7 +26,6 @@ router.post('/register', async (req, res) => {
     }
 })
 
-
 //login
 router.post('/login', async (req, res) => {
     const { email, password } = req.body
@@ -58,8 +57,6 @@ router.post('/login', async (req, res) => {
     }
 })
 
-
-
 //resetpassword
 router.post('/resetpassword', async (req, res) => {
     const { email, newpassword } = req.body
@@ -83,8 +80,6 @@ router.post('/resetpassword', async (req, res) => {
         res.status(500).json({ message: 'Reset Failed', error: err.message })
     }
 })
-
-
 
 //users list
 router.get('/users', async (req, res) => {

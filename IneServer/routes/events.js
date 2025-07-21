@@ -73,7 +73,7 @@ router.post('/events/delete/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
-        const result = await db.query(`DELETE FROM events WHERE id = $1`, [id]);
+        const result = await db.query(`delete from events WHERE id = $1`, [id]);
 
         if (result.rowCount === 0) {
             return res.status(404).json({ message: 'Event not found or already deleted' });
