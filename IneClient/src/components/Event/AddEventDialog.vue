@@ -5,7 +5,7 @@
     @click="closeDialog"
   >
     <div 
-      class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg relative max-h-[90vh] overflow-y-auto"
+      class="bg-white rounded-lg p-6 w-full max-w-xl shadow-lg relative max-h-[90vh] overflow-y-auto scrollbar-hide"
       @click.stop
     >
       
@@ -176,3 +176,14 @@ const addNewEvent = async () => {
   }
 }
 </script>
+
+<style scoped>
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+</style>

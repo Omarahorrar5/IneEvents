@@ -5,7 +5,7 @@
     @click="closeDialog"
   >
     <div 
-      class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg relative max-h-[90vh] overflow-y-auto"
+      class="bg-white rounded-lg p-6 w-full max-w-xl shadow-lg relative max-h-[90vh] overflow-y-auto scrollbar-hide"
       @click.stop
     >
       
@@ -80,7 +80,6 @@
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           />
         </div>
-
       </div>
       
       <div class="flex gap-2 justify-end">
@@ -218,3 +217,14 @@ const saveEvent = async () => {
   }
 }
 </script>
+
+<style scoped>
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+</style>
