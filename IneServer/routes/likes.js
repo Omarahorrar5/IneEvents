@@ -29,4 +29,20 @@ router.post('/events/:id/like', async (req, res) => {
     }
 })
 
+router.get('/events/:id/like-status', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await db.query(`select * from event_likes where user_id=$1 and event_id=$2`, [23, id]);
+
+        const liked = result.rows.length > 0;
+
+        res.json({ liked });
+    }
+
+    catch(err) {
+        res.status(500).json({ message: 'Could not find like status', error: err.message });
+    }
+})
+
 export default router
