@@ -17,6 +17,7 @@ export default {
         textMuted: '#A8B2D1',      // Subtle text, descriptions
         success: '#2DF49E',        // Green for success
         danger: '#FF4D6D',         // Red for errors
+        redd: '#d81237ff'
       },
     },
   },
