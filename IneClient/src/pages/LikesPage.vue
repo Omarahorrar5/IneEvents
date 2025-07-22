@@ -1,6 +1,13 @@
 <template>
-    <div class="h-screen bg-hero m-0 p-0 overflow-x-hidden">
-        <Navbar />
+    <div class="h-screen bg-gradient-to-b from-surface to-[#000D19] m-0 p-0 overflow-x-hidden">
+        <!-- Return button container with proper alignment -->
+        <div class="px-6 pt-6">
+            <router-link to="/home" class="bg-white/10 border border-white/20 rounded-xl p-3 flex items-center justify-center w-12 h-12 text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:border-white/30 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:shadow-md group" aria-label="Go back">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform duration-200 group-hover:-translate-x-0.5">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </router-link>
+        </div>
 
         <!-- Custom Hero Section for Likes Page -->
         <div class="flex flex-col items-center justify-center h-[250px] relative px-6">
@@ -26,6 +33,7 @@
 
             <!-- Empty State -->
             <div v-else-if="likedEvents.length === 0" class="text-center py-20">
+
                 <h3 class="text-2xl font-medium text-textMain mb-6">No liked events yet</h3>
                 <router-link 
                     to="/home" 
@@ -155,7 +163,6 @@
 </template>
 
 <script setup>
-import Navbar from '../components/Event/Navbar.vue';
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 
