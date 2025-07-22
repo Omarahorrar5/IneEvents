@@ -45,4 +45,26 @@ router.get('/events/:id/like-status', async (req, res) => {
     }
 })
 
+// Get all liked events for a user
+router.get('/events/liked', async (req, res) => {
+    try {
+        const result = await db.query(`
+            SELECT e.*, el.created_at as liked_at 
+            FROM events e 
+            INNER JOIN event_likes el ON e.id = el.event_id 
+            WHERE el.user_id = $1 
+            ORDER BY el.created_at DESC
+        `, [23]);
+
+        res.json({ 
+            likedEvents: result.rows,
+            count: result.rows.length 
+        });
+    }
+
+    catch(err) {
+        res.status(500).json({ message: 'Could not fetch liked events', error: err.message });
+    }
+})
+
 export default router
