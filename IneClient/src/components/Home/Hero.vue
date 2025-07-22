@@ -7,6 +7,22 @@
       Discover, search, and join the latest engineering events near you.
     </p>
     <div class="w-full max-w-md relative">
+      
+      <!-- Liked Events Button with Love Symbol -->
+      <router-link 
+        to="/likes"
+        class="absolute left-0 top-1/2 -translate-x-[120%] -translate-y-1/2 flex items-center gap-2 py-3 px-6 text-textMain bg-surface border border-primary rounded-lg hover:bg-primary hover:text-dark transition-all duration-300 group"
+      >
+        <svg 
+          class="w-5 h-5 text-red-500 group-hover:text-red-600 transition-colors" 
+          fill="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <span class="font-medium">Liked Events</span>
+      </router-link>
+
       <!-- Centered search input -->
       <input
         type="text"

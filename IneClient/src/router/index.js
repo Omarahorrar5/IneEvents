@@ -8,6 +8,7 @@ import LoginForm from '../components/Landing/LoginForm.vue';
 import RegisterForm from '../components/Landing/RegisterForm.vue';
 import ResetPassword from '../components/Landing/ResetPassword.vue';
 import InnerAboutPage from '../pages/InnerAboutPage.vue';
+import LikesPage from '../pages/LikesPage.vue';
 
 const routes = [
   {
@@ -35,6 +36,11 @@ const routes = [
   {
     path: '/about',
     component: InnerAboutPage
+  }, 
+
+  {
+    path: '/likes',
+    component: LikesPage
   }
 ];
 
