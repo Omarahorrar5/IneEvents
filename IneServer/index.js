@@ -15,8 +15,8 @@ app.use(cors()); // Allow frontend to talk to backend
 app.use(express.json()); // Accept JSON requests
 
 app.use('/api', authRoutes); // Use /api/register, /api/login, /api/users...
-app.use('/api', eventsRoutes); // Use /api/events
-app.use('/api', likesRoutes); // Use likes api
+app.use('/api', likesRoutes); // Use likes api - MUST come first!
+app.use('/api', eventsRoutes); // Use /api/events - comes after likes
 app.use('/api', registrationsRoutes) // Use registrations api
 
 app.listen(PORT, () => {
