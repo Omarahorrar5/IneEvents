@@ -65,9 +65,14 @@ const props = defineProps({
     }
 })
 
+// Emit events to parent for passing to filters
+const emit = defineEmits(['events-loaded'])
+
 async function fetchEvents() {
     const res = await axios.get('http://localhost:5000/api/events');
     events.value = res.data
+    // Emit events to parent so it can pass them to filters
+    emit('events-loaded', res.data)
 }
 
 const handleEditEvent = (eventId) => {
@@ -98,11 +103,15 @@ const onEventUpdated = (updatedEvent) => {
     if (index !== -1) {
         events.value[index] = { ...events.value[index], ...updatedEvent }
     }
+    // Emit updated events to parent
+    emit('events-loaded', events.value)
 }
 
 const onEventDeleted = (deletedEventId) => {
     // Remove the event from the array
     events.value = events.value.filter(event => event.id !== deletedEventId)
+    // Emit updated events to parent
+    emit('events-loaded', events.value)
 }
 
 const filteredEvents = computed(() => {

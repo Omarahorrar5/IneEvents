@@ -5,8 +5,15 @@
         <Hero @search="handleSearch" @open-add-event="openAddEventDialog"/>
 
         <div class="flex gap-5">
-            <Filters @filters-changed="handleFiltersChanged"/>
-            <Events :searchTerm="searchTerm" :filters="filters"/>
+            <Filters 
+                :events="events" 
+                @filters-changed="handleFiltersChanged" 
+            />
+            <Events 
+                :searchTerm="searchTerm" 
+                :filters="filters"
+                @events-loaded="handleEventsLoaded"
+            />
         </div>
        
         <AddEventDialog 
@@ -29,6 +36,7 @@ import { ref } from 'vue'
 
 const searchTerm = ref('')
 const isAddEventDialogOpen = ref(false)
+const events = ref([])
 
 const filters = ref({
     type: 'All',
@@ -43,6 +51,10 @@ const handleSearch = (term) => {
 
 const handleFiltersChanged = (newFilters) => {
     filters.value = newFilters
+}
+
+const handleEventsLoaded = (loadedEvents) => {
+    events.value = loadedEvents
 }
 
 const openAddEventDialog = () => {
