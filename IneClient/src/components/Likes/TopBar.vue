@@ -17,7 +17,7 @@
                 Your Liked Events
             </h1>
         </div>
-        <p class="text-lg text-textMuted mb-6 text-center">
+        <p class="text-lg text-textMuted mb-2 text-center">
             All the events you've saved for later
         </p>
     </div>
