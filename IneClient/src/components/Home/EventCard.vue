@@ -13,7 +13,8 @@
         <!-- Like button at top right -->
         <button 
           @click.prevent="toggleLike"
-          class="absolute top-2 right-2 w-10 h-10 bg-gray-800 bg-opacity-70 rounded-full flex items-center justify-center hover:bg-opacity-90 transition-all duration-200"
+          :disabled="likingInProgress"
+          class="absolute top-2 right-2 w-10 h-10 bg-gray-800 bg-opacity-70 rounded-full flex items-center justify-center hover:bg-opacity-90 transition-all duration-200 disabled:opacity-50"
         >
           <svg 
             class="w-4 h-4 transition-colors duration-200" 
@@ -95,6 +96,7 @@
 
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue'
+import axios from 'axios'
 
 const props = defineProps({
   id: [String, Number],
@@ -103,13 +105,18 @@ const props = defineProps({
   description: String,
   location: String,
   date: String,
-  type: String
+  type: String,
+  liked: {
+    type: Boolean,
+    default: false
+  }
 })
 
 const emit = defineEmits(['edit', 'delete', 'like'])
 
 const showDropdown = ref(false)
-const isLiked = ref(false)
+const isLiked = ref(props.liked)
+const likingInProgress = ref(false)
 
 const formattedDate = computed(() => new Date(props.date))
 const formattedMonth = computed(() => formattedDate.value.toLocaleString('default', { month: 'short' }))
@@ -120,9 +127,41 @@ const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value
 }
 
-const toggleLike = () => {
+const toggleLike = async () => {
+  if (likingInProgress.value) return
+  
+  likingInProgress.value = true
+  const previousState = isLiked.value
+  
+  // Optimistic update
   isLiked.value = !isLiked.value
-  emit('like', { id: props.id, liked: isLiked.value })
+  
+  try {
+    const response = await axios.post(`http://localhost:5000/api/events/${props.id}/like`)
+    
+    // Update with server response
+    isLiked.value = response.data.liked
+    
+    // Emit the like event to parent component
+    emit('like', { 
+      id: props.id, 
+      liked: response.data.liked,
+      message: response.data.message 
+    })
+    
+  } catch (error) {
+    // Revert on error
+    isLiked.value = previousState
+    console.error('Error toggling like:', error)
+    
+    // You can emit an error event or show a toast notification here
+    emit('like-error', { 
+      id: props.id, 
+      error: error.response?.data?.message || 'Failed to update like status' 
+    })
+  } finally {
+    likingInProgress.value = false
+  }
 }
 
 const handleEdit = () => {
@@ -142,8 +181,10 @@ const handleClickOutside = (event) => {
   }
 }
 
+// Watch for prop changes
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
+  isLiked.value = props.liked
 })
 
 onUnmounted(() => {
