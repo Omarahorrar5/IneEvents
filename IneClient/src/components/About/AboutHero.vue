@@ -1,6 +1,14 @@
 <template>
   <section class="min-h-screen flex items-center justify-center px-8 py-20">
     <div class="max-w-6xl mx-auto text-center">
+      <div class="px-6 pt-6">
+        <router-link to="/home" class="bg-white/10 border border-white/20 rounded-xl p-3 flex items-center justify-center w-12 h-12 text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:border-white/30 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:shadow-md group" aria-label="Go back">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform duration-200 group-hover:-translate-x-0.5">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </router-link>
+    </div>
+    
       <div class="mb-8">
         <h1 class="text-6xl md:text-6xl font-bold text-white mb-10">
           About <span class="text-primary">IneEvents</span>
