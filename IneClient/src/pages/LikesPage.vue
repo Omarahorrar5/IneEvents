@@ -48,7 +48,7 @@
                     </div>
                 </div>
 
-                <!-- Events Grid -->
+                <!-- Events Grid using same layout as Home page -->
                 <EventsGrid 
                     :events="sortedEvents"
                     @toggleLike="toggleLike"
