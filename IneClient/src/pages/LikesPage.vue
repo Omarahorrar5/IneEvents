@@ -10,7 +10,7 @@
             </div>
 
             <!-- Empty State -->
-            <div v-else-if="likedEvents.length === 0" class="text-center py-20">
+            <div v-else-if="likedEvents.length === 0" class="text-center py-20 bg-card rounded-lg">
                 <h3 class="text-2xl font-medium text-textMain mb-6">No liked events yet</h3>
                 <router-link 
                     to="/home" 
