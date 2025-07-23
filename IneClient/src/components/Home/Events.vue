@@ -9,6 +9,7 @@
             :key="event.id"
             :id="event.id"
             :title="event.title"
+            :type="event.type"
             :image="event.image_path"
             :description="event.description"
             :location="`${event.school}, ${event.city}`"

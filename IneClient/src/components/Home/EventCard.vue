@@ -4,8 +4,28 @@
       :to="`/event/${id}`"
       class="flex flex-col w-full max-w-xs h-[26rem] bg-white rounded shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:-translate-y-1 no-underline text-inherit"
     >    
-      <!-- Fixed height image -->
-      <div class="w-full h-36 bg-top bg-cover rounded-t shrink-0" :style="`background-image: url(${image})`"></div>
+      <!-- Fixed height image with overlays -->
+      <div class="relative w-full h-36 bg-top bg-cover rounded-t shrink-0" :style="`background-image: url(${image})`">
+        <div class="absolute bottom-2 left-2 bg-gray-800 bg-opacity-80 text-white text-xs px-2 py-1 rounded font-bold">
+          {{ type }}
+        </div>
+
+        <!-- Like button at top right -->
+        <button 
+          @click.prevent="toggleLike"
+          class="absolute top-2 right-2 w-10 h-10 bg-gray-800 bg-opacity-70 rounded-full flex items-center justify-center hover:bg-opacity-90 transition-all duration-200"
+        >
+          <svg 
+            class="w-4 h-4 transition-colors duration-200" 
+            :class="isLiked ? 'text-red-500' : 'text-white'"
+            fill="currentColor" 
+            viewBox="0 0 20 20"
+          >
+            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+      </div>
+      
       <div class="flex flex-col w-full md:flex-row flex-grow overflow-hidden">
         <!-- Date column -->
         <div class="flex flex-row justify-around p-4 font-bold leading-none text-gray-800 uppercase bg-gray-400 rounded md:flex-col md:items-center md:justify-center md:w-1/4 shrink-0">
@@ -82,12 +102,14 @@ const props = defineProps({
   image: String,
   description: String,
   location: String,
-  date: String
+  date: String,
+  type: String
 })
 
-const emit = defineEmits(['edit', 'delete'])
+const emit = defineEmits(['edit', 'delete', 'like'])
 
 const showDropdown = ref(false)
+const isLiked = ref(false)
 
 const formattedDate = computed(() => new Date(props.date))
 const formattedMonth = computed(() => formattedDate.value.toLocaleString('default', { month: 'short' }))
@@ -96,6 +118,11 @@ const formattedTime = computed(() => formattedDate.value.toLocaleTimeString([], 
 
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value
+}
+
+const toggleLike = () => {
+  isLiked.value = !isLiked.value
+  emit('like', { id: props.id, liked: isLiked.value })
 }
 
 const handleEdit = () => {
