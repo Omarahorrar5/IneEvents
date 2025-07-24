@@ -66,7 +66,6 @@
 </template>
 
 <script setup>
-// Props
 defineProps({
     events: {
         type: Array,
