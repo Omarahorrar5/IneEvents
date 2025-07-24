@@ -3,7 +3,7 @@
     <h1 class="text-4xl font-bold text-textMain mb-4 text-center">
       The Biggest Engineering Events Manager
     </h1>
-    <p class="text-lg text-textMuted mb-6 text-center">
+    <p class="text-lg text-textMuted mb-8 text-center">
       Discover, search, and join the latest engineering events near you.
     </p>
     <div class="w-full max-w-md relative">
