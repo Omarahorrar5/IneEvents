@@ -9,7 +9,7 @@
       @click.stop
     >
      
-      <h2 class="text-xl font-semibold mb-4">Delete Event</h2>
+      <h2 class="text-2xl font-semibold mb-4 text-red-500">Delete Event</h2>
      
       <div class="mb-4 space-y-4">
         <p class="text-gray-600">Are you sure you want to delete this event?</p>
