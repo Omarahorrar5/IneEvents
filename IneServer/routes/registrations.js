@@ -3,6 +3,27 @@ import db from '../db.js'
 
 const router = express.Router()
 
+router.get('/events/registered', async (req, res) => {
+    try {
+        const result = await db.query(`
+            SELECT e.*, er.registration_date
+            FROM events e 
+            INNER JOIN event_registrations er ON e.id = er.event_id 
+            WHERE er.user_id = $1 
+            ORDER BY er.registration_date DESC
+        `, [23]);
+
+        res.json({ 
+            events: result.rows,
+            count: result.rows.length 
+        });
+    }
+
+    catch(err) {
+        res.status(500).json({ message: 'Could not fetch registered events', error: err.message });
+    }
+})
+
 router.post('/events/:id/register', async (req, res) => {
     try {
         const { id } = req.params;
