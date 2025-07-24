@@ -16,17 +16,17 @@
                         {{ event.type }}
                     </div>
 
-                    <!-- Like button at top right (always liked on this page) -->
+                    <!-- Register button at top right (always registered on this page) -->
                     <button 
-                        @click.prevent="$emit('toggleLike', event)"
+                        @click.prevent="$emit('toggleRegister', event)"
                         class="absolute top-2 right-2 w-10 h-10 bg-gray-800 bg-opacity-70 rounded-full flex items-center justify-center hover:bg-opacity-90 transition-all duration-200"
                     >
                         <svg 
-                            class="w-4 h-4 transition-colors duration-200 text-red-500"
+                            class="w-4 h-4 transition-colors duration-200 text-blue-500"
                             fill="currentColor" 
-                            viewBox="0 0 20 20"
+                            viewBox="0 0 24 24"
                         >
-                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
                         </svg>
                     </button>
                 </div>
@@ -51,12 +51,12 @@
                             {{ event.city }}
                         </div>
                         
-                        <!-- Liked time indicator -->
+                        <!-- Registered time indicator -->
                         <div class="mt-1 text-xs text-gray-500 flex items-center">
-                            <svg class="w-3 h-3 mr-1 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                            <svg class="w-3 h-3 mr-1 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
                             </svg>
-                            Liked {{ formatRelativeTime(event.liked_at) }}
+                            Registered {{ formatRelativeTime(event.registered_at) }}
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@ defineProps({
 })
 
 // Emits
-defineEmits(['toggleLike', 'shareEvent'])
+defineEmits(['toggleRegister', 'shareEvent'])
 
 // Methods
 const formatDate = (dateString) => {

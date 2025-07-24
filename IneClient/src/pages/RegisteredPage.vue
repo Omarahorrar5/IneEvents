@@ -2,7 +2,7 @@
     <div class="h-screen bg-gradient-to-b from-surface to-[#000D19] m-0 p-0 overflow-x-hidden">
         <TopBar />
 
-        <!-- Liked Events Content -->
+        <!-- Registered Events Content -->
         <div class="container mx-auto px-6 py-8">
             <!-- Loading State -->
             <div v-if="loading" class="flex justify-center items-center py-20">
@@ -10,8 +10,8 @@
             </div>
 
             <!-- Empty State -->
-            <div v-else-if="likedEvents.length === 0" class="text-center py-20 bg-card rounded-lg">
-                <h3 class="text-2xl font-medium text-textMain mb-6">No liked events yet</h3>
+            <div v-else-if="registeredEvents.length === 0" class="text-center py-20 bg-card rounded-lg">
+                <h3 class="text-2xl font-medium text-textMain mb-6">No registered events yet</h3>
                 <router-link 
                     to="/home" 
                     class="inline-flex items-center gap-2 px-6 py-3 text-dark bg-primary font-semibold rounded-lg hover:bg-secondary transition-colors"
@@ -23,14 +23,14 @@
                 </router-link>
             </div>
 
-            <!-- Liked Events -->
+            <!-- Registered Events -->
             <div v-else>
                 <div class="mb-6 flex justify-between items-center">
                     <h2 class="text-2xl font-semibold text-textMain flex items-center gap-2">
-                        <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        <svg class="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
                         </svg>
-                        {{ likedEvents.length }} Liked Event {{ likedEvents.length !== 1 ? 's' : '' }}
+                        {{ registeredEvents.length }} Registered Event {{ registeredEvents.length !== 1 ? 's' : '' }}
                     </h2>
                     <div class="flex gap-2">
                         <button 
@@ -51,7 +51,7 @@
                 <!-- Events Grid using same layout as Home page -->
                 <EventsGrid 
                     :events="sortedEvents"
-                    @toggleLike="toggleLike"
+                    @toggleRegister="toggleRegister"
                     @shareEvent="shareEvent"
                 />
             </div>
@@ -67,40 +67,40 @@ import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 
 // Reactive data
-const likedEvents = ref([])
+const registeredEvents = ref([])
 const loading = ref(true)
 const sortBy = ref('recent') // 'recent' or 'title'
 
 // Computed properties
 const sortedEvents = computed(() => {
     if (sortBy.value === 'recent') {
-        return [...likedEvents.value].sort((a, b) => new Date(b.liked_at) - new Date(a.liked_at))
+        return [...registeredEvents.value].sort((a, b) => new Date(b.registered_at) - new Date(a.registered_at))
     } else {
-        return [...likedEvents.value].sort((a, b) => a.title.localeCompare(b.title))
+        return [...registeredEvents.value].sort((a, b) => a.title.localeCompare(b.title))
     }
 })
 
 // Methods
-const fetchLikedEvents = async () => {
+const fetchRegisteredEvents = async () => {
     try {
         loading.value = true
-        const response = await axios.get('http://localhost:5000/api/events/liked')
-        likedEvents.value = response.data.likedEvents
+        const response = await axios.get('http://localhost:5000/api/events/registered')
+        registeredEvents.value = response.data.events
     } catch (error) {
-        console.error('Error fetching liked events:', error)
+        console.error('Error fetching registered events:', error)
         // You might want to show a toast notification here
     } finally {
         loading.value = false
     }
 }
 
-const toggleLike = async (event) => {
+const toggleRegister = async (event) => {
     try {
-        await axios.post(`http://localhost:5000/api/events/${event.id}/like`)
-        // Remove the event from the liked events list
-        likedEvents.value = likedEvents.value.filter(e => e.id !== event.id)
+        await axios.post(`http://localhost:5000/api/events/${event.id}/register`)
+        // Remove the event from the registered events list
+        registeredEvents.value = registeredEvents.value.filter(e => e.id !== event.id)
     } catch (error) {
-        console.error('Error unliking event:', error)
+        console.error('Error unregistering from event:', error)
         // You might want to show a toast notification here
     }
 }
@@ -121,6 +121,6 @@ const shareEvent = (event) => {
 
 // Lifecycle
 onMounted(() => {
-    fetchLikedEvents()
+    fetchRegisteredEvents()
 })
 </script>
