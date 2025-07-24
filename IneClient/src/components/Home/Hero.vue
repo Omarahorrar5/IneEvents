@@ -8,7 +8,7 @@
     </p>
     <div class="w-full max-w-md relative">
       
-      <!-- Liked Events Button with Love Symbol -->
+      <!-- Liked Events Button -->
       <router-link 
         to="/likes"
         class="absolute left-0 top-1/2 -translate-x-[370%] -translate-y-1/2 flex items-center gap-2 py-3 px-6 text-textMain bg-surface border border-primary rounded-lg hover:bg-primary hover:text-dark transition-all duration-300 group"
@@ -22,6 +22,22 @@
         </svg>
         <span class="font-medium">Liked</span>
       </router-link>
+
+      <!-- Registered Events Button -->
+      <router-link 
+        to="/registered"
+        class="absolute left-0 top-1/2 -translate-x-[195%] -translate-y-1/2 flex items-center gap-2 py-3 px-6 text-textMain bg-surface border border-primary rounded-lg hover:bg-primary hover:text-dark transition-all duration-300 group"
+      >
+        <svg
+          class="w-5 h-5 text-blue-500 group-hover:text-blue-600 transition-colors" 
+          fill="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+        </svg>
+        <span class="font-medium">Registered</span>
+      </router-link>
+
 
       <!-- Centered search input -->
       <input
