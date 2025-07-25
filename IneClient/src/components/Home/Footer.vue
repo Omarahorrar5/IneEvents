@@ -32,9 +32,8 @@
           <h3 class="text-white font-semibold mb-6">Quick Links</h3>
           <ul class="space-y-3">
             <li><router-link to="/" class="text-textMuted hover:text-primary transition-colors">Home</router-link></li>
-            <li><a href="#" class="text-textMuted hover:text-primary transition-colors">Schools</a></li>
+            <li><router-link to="/schools" class="text-textMuted hover:text-primary transition-colors">Schools</router-link></li>
             <li><router-link to="/about" class="text-textMuted hover:text-primary transition-colors">About</router-link></li>
-            <li><router-link to="/contact" class="text-textMuted hover:text-primary transition-colors">Contact</router-link></li>
           </ul>
         </div>
         

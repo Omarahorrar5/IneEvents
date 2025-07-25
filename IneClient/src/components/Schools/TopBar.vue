@@ -7,18 +7,18 @@
         </router-link>
     </div>
 
-    <!-- Custom Hero Section for Registered Events Page -->
+    <!-- Custom Hero Section for Schools Page -->
     <div class="flex flex-col items-center justify-center h-[160px] relative px-6">
         <div class="flex items-center gap-3 mb-4">
             <svg class="w-10 h-10 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+                <path d="M5,5H19V4H5M5,8H15V7H5M5,11H19V10H5M5,14H15V13H5M5,17H19V16H5M2,20V18H4V20M11,20V18H13V20M20,20V18H22V20"/>
             </svg>
             <h1 class="text-4xl font-bold text-textMain text-center">
-                Your Registered Events
+                Schools & Universities
             </h1>
         </div>
         <p class="text-lg text-textMuted mb-2 text-center">
-            Events you've signed up to attend
+            Discover educational institutions hosting events
         </p>
     </div>
 </template>

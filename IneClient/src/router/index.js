@@ -10,6 +10,7 @@ import ResetPassword from '../components/Landing/ResetPassword.vue';
 import InnerAboutPage from '../pages/InnerAboutPage.vue';
 import LikesPage from '../pages/LikesPage.vue';
 import RegisteredPage from '../pages/RegisteredPage.vue';
+import SchoolsPage from '../pages/SchoolsPage.vue';
 
 const routes = [
   {
@@ -47,6 +48,11 @@ const routes = [
   {
     path: '/registered',
     component: RegisteredPage
+  }, 
+
+  {
+    path: '/schools',
+    component: SchoolsPage
   }
 ];
 

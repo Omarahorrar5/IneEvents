@@ -1,108 +1,78 @@
 <template>
-    <!-- Events Grid using Home page card style -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Schools Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div 
-            v-for="event in events" 
-            :key="event.id"
+            v-for="school in schools" 
+            :key="`${school.school}-${school.city}`"
             class="relative group"
         >
-            <router-link
-                :to="`/event/${event.id}`"
-                class="flex flex-col w-full max-w-sm h-[26rem] bg-white rounded shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:-translate-y-1 no-underline text-inherit"
-            >    
-                <!-- Fixed height image with overlays -->
-                <div class="relative w-full h-36 bg-top bg-cover rounded-t shrink-0" :style="`background-image: url(${event.image_path})`">
-                    <div class="absolute bottom-2 left-2 bg-gray-800 bg-opacity-80 text-white text-xs px-2 py-1 rounded font-bold">
-                        {{ event.type }}
-                    </div>
-
-                    <!-- Register button at top right (always registered on this page) -->
-                    <button 
-                        @click.prevent="$emit('toggleRegister', event)"
-                        class="absolute top-2 right-2 w-10 h-10 bg-gray-800 bg-opacity-70 rounded-full flex items-center justify-center hover:bg-opacity-90 transition-all duration-200"
-                    >
-                        <svg 
-                            class="w-4 h-4 transition-colors duration-200 text-blue-500"
-                            fill="currentColor" 
-                            viewBox="0 0 24 24"
-                        >
-                            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+            <div class="flex flex-col w-full max-w-sm h-64 bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:-translate-y-1">    
+                <!-- School header with gradient background -->
+                <div class="relative w-full h-32 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                    <!-- School icon -->
+                    <div class="bg-white/20 backdrop-blur-sm rounded-full p-4">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M5,5H19V4H5M5,8H15V7H5M5,11H19V10H5M5,14H15V13H5M5,17H19V16H5M2,20V18H4V20M11,20V18H13V20M20,20V18H22V20"/>
                         </svg>
-                    </button>
+                    </div>
+                    
+                    <!-- Decorative elements -->
+                    <div class="absolute top-2 right-2 w-8 h-8 bg-white/10 rounded-full"></div>
+                    <div class="absolute bottom-2 left-2 w-6 h-6 bg-white/10 rounded-full"></div>
                 </div>
                 
-                <div class="flex flex-col w-full md:flex-row flex-grow overflow-hidden">
-                    <!-- Date column -->
-                    <div class="flex flex-row justify-around p-4 font-bold leading-none text-gray-800 uppercase bg-gray-400 rounded md:flex-col md:items-center md:justify-center md:w-1/4 shrink-0">
-                        <div class="md:text-3xl">{{ formatMonth(event.date) }}</div>
-                        <div class="md:text-6xl">{{ formatDay(event.date) }}</div>
-                        <div class="md:text-xl">{{ formatTime(event.date) }}</div>
+                <!-- School information -->
+                <div class="flex flex-col flex-grow p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">
+                        {{ school.school }}
+                    </h3>
+                    
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <svg class="w-4 h-4 mr-2 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z"/>
+                        </svg>
+                        <span class="text-sm font-medium">{{ school.city }}</span>
                     </div>
-                    <!-- Text content -->
-                    <div class="p-4 font-normal text-gray-800 md:w-3/4 flex flex-col overflow-hidden">
-                        <h1 class="mb-2 text-2xl font-bold leading-tight tracking-tight text-gray-800">
-                            {{ event.title }}
-                        </h1>
-                        <p class="text-sm leading-snug text-gray-700 overflow-hidden" style="max-height: 4.5rem">
-                            {{ event.description }}
-                        </p>
-                       
-                        <div class="mt-auto pt-2 text-sm font-medium text-gray-600 truncate">
-                            {{ event.city }}
-                        </div>
-                        
-                        <!-- Registered time indicator -->
-                        <div class="mt-1 text-xs text-gray-500 flex items-center">
-                            <svg class="w-3 h-3 mr-1 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+                    
+                    <!-- Action button -->
+                    <div class="mt-auto">
+                        <button 
+                            @click="viewSchoolEvents(school)"
+                            class="w-full px-4 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition-colors duration-200 flex items-center justify-center gap-2"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2v16a2 2 0 002 2z"/>
                             </svg>
-                            Registered {{ formatRelativeTime(event.registered_at) }}
-                        </div>
+                            View Events
+                        </button>
                     </div>
                 </div>
-            </router-link>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 defineProps({
-    events: {
+    schools: {
         type: Array,
         required: true
     }
 })
 
-// Emits
-defineEmits(['toggleRegister', 'shareEvent'])
-
 // Methods
-const formatDate = (dateString) => {
-    return new Date(dateString)
-}
-
-const formatMonth = (dateString) => {
-    return new Date(dateString).toLocaleString('default', { month: 'short' })
-}
-
-const formatDay = (dateString) => {
-    return new Date(dateString).getDate()
-}
-
-const formatTime = (dateString) => {
-    return new Date(dateString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-}
-
-const formatRelativeTime = (dateString) => {
-    const date = new Date(dateString)
-    const now = new Date()
-    const diffInSeconds = Math.floor((now - date) / 1000)
-    
-    if (diffInSeconds < 60) return 'just now'
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`
-    if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)} days ago`
-    
-    return date.toLocaleDateString()
+const viewSchoolEvents = (school) => {
+    // Navigate to events page with school filter
+    router.push({
+        path: '/home',
+        query: { 
+            school: school.school,
+            city: school.city 
+        }
+    })
 }
 </script>
