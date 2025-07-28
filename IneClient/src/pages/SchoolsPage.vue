@@ -27,9 +27,7 @@
             <div v-else>
                 <div class="mb-6 flex justify-between items-center">
                     <h2 class="text-2xl font-semibold text-textMain flex items-center gap-2">
-                        <svg class="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M5,5H19V4H5M5,8H15V7H5M5,11H19V10H5M5,14H15V13H5M5,17H19V16H5M2,20V18H4V20M11,20V18H13V20M20,20V18H22V20"/>
-                        </svg>
+                       
                         {{ schools.length }} School{{ schools.length !== 1 ? 's' : '' }}
                     </h2>
                     <div class="flex gap-2">
@@ -78,7 +76,6 @@ const sortedSchools = computed(() => {
     }
 })
 
-// Methods
 const fetchSchools = async () => {
     try {
         loading.value = true
@@ -86,13 +83,11 @@ const fetchSchools = async () => {
         schools.value = response.data
     } catch (error) {
         console.error('Error fetching schools:', error)
-        // You might want to show a toast notification here
     } finally {
         loading.value = false
     }
 }
 
-// Lifecycle
 onMounted(() => {
     fetchSchools()
 })

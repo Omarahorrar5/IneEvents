@@ -8,17 +8,13 @@
         >
             <div class="flex flex-col w-full max-w-sm h-64 bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:-translate-y-1">    
                 <!-- School header with gradient background -->
-                <div class="relative w-full h-32 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                <div class="relative w-full h-32 bg-gradient-to-br from-blue-700 to-blue-800 flex items-center justify-center">
                     <!-- School icon -->
                     <div class="bg-white/20 backdrop-blur-sm rounded-full p-4">
                         <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M5,5H19V4H5M5,8H15V7H5M5,11H19V10H5M5,14H15V13H5M5,17H19V16H5M2,20V18H4V20M11,20V18H13V20M20,20V18H22V20"/>
                         </svg>
                     </div>
-                    
-                    <!-- Decorative elements -->
-                    <div class="absolute top-2 right-2 w-8 h-8 bg-white/10 rounded-full"></div>
-                    <div class="absolute bottom-2 left-2 w-6 h-6 bg-white/10 rounded-full"></div>
                 </div>
                 
                 <!-- School information -->
