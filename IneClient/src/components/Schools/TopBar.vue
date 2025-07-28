@@ -10,8 +10,8 @@
     <!-- Custom Hero Section for Schools Page -->
     <div class="flex flex-col items-center justify-center h-[160px] relative px-6">
         <div class="flex items-center gap-3 mb-4">
-            <svg class="w-10 h-10 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M5,5H19V4H5M5,8H15V7H5M5,11H19V10H5M5,14H15V13H5M5,17H19V16H5M2,20V18H4V20M11,20V18H13V20M20,20V18H22V20"/>
+            <svg style="width: 48px; height: 48px; color: white;" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 3L1 9L12 15L21 12V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z"/>
             </svg>
             <h1 class="text-4xl font-bold text-textMain text-center">
                 Schools & Universities
