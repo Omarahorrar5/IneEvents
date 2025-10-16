@@ -1,21 +1,5 @@
 version: '3.9'
-
 services:
-  db:
-    image: postgres:17
-    container_name: ineevents_db
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: omarahorrar
-      POSTGRES_DB: AuthDB
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - ine_network
-
   ineserver:
     build: ./IneServer
     container_name: ineevents_server
@@ -23,8 +7,6 @@ services:
       - "5000:5000"
     env_file:
       - ./IneServer/.env
-    depends_on:
-      - db
     networks:
       - ine_network
 
@@ -43,6 +25,3 @@ services:
 networks:
   ine_network:
     driver: bridge
-
-volumes:
-  pgdata:
