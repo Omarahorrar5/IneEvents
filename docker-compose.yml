@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   ineserver:
-    build: ./IneServer
+    image: omarahorrar/ineevents-ineserver:latest
     container_name: ineevents_server
     ports:
       - "5000:5000"
@@ -11,7 +11,7 @@ services:
       - ine_network
 
   ineclient:
-    build: ./IneClient
+    image: omarahorrar/ineevents-ineclient:latest
     container_name: ineevents_client
     ports:
       - "5173:80"
