@@ -75,7 +75,7 @@ onMounted(async () => {
 const checkRegistrationStatus = async () => {
   try {
     console.log('Fetching registration status...')
-    const response = await fetch(`http://localhost:5000/api/events/${eventId}/registration-status`)
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/events/${eventId}/registration-status`)
     
     console.log('Registration status response status:', response.status)
     
@@ -104,7 +104,7 @@ const register = async () => {
   statusMessage.value = ''
   
   try {
-    const response = await fetch(`http://localhost:5000/api/events/${eventId}/register`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/events/${eventId}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -148,7 +148,7 @@ const cancelRegistration = async () => {
   statusMessage.value = ''
   
   try {
-    const response = await fetch(`http://localhost:5000/api/events/${eventId}/register`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/events/${eventId}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

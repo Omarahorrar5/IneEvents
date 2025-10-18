@@ -197,12 +197,12 @@ const saveEvent = async () => {
 
     if (isEditMode.value) {
       // Update existing event
-      response = await axios.post(`http://localhost:5000/api/events/update/${props.eventData.id}`, eventPayload)
+      response = await axios.post(`${import.meta.env.VITE_API_URL}/events/update/${props.eventData.id}`, eventPayload)
       console.log('Event updated successfully:', response.data)
       emit('event-updated', { ...eventPayload, id: props.eventData.id })
     } else {
       // Create new event
-      response = await axios.post('http://localhost:5000/api/events', eventPayload)
+      response = await axios.post(`${import.meta.env.VITE_API_URL}/events`, eventPayload)
       console.log('Event created successfully:', response.data)
       emit('event-added', response.data)
     }

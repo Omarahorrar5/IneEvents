@@ -84,7 +84,7 @@ const sortedEvents = computed(() => {
 const fetchRegisteredEvents = async () => {
     try {
         loading.value = true
-        const response = await axios.get('http://localhost:5000/api/events/registered')
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/events/registered`)
         registeredEvents.value = response.data.events
     } catch (error) {
         console.error('Error fetching registered events:', error)
@@ -96,7 +96,7 @@ const fetchRegisteredEvents = async () => {
 
 const toggleRegister = async (event) => {
     try {
-        await axios.post(`http://localhost:5000/api/events/${event.id}/register`)
+        await axios.post(`${import.meta.env.VITE_API_URL}/events/${event.id}/register`)
         // Remove the event from the registered events list
         registeredEvents.value = registeredEvents.value.filter(e => e.id !== event.id)
     } catch (error) {

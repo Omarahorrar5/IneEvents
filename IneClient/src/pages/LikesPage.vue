@@ -84,7 +84,7 @@ const sortedEvents = computed(() => {
 const fetchLikedEvents = async () => {
     try {
         loading.value = true
-        const response = await axios.get('http://localhost:5000/api/events/liked')
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/events/liked`)
         likedEvents.value = response.data.likedEvents
     } catch (error) {
         console.error('Error fetching liked events:', error)
@@ -96,7 +96,7 @@ const fetchLikedEvents = async () => {
 
 const toggleLike = async (event) => {
     try {
-        await axios.post(`http://localhost:5000/api/events/${event.id}/like`)
+        await axios.post(`${import.meta.env.VITE_API_URL}/events/${event.id}/like`)
         // Remove the event from the liked events list
         likedEvents.value = likedEvents.value.filter(e => e.id !== event.id)
     } catch (error) {

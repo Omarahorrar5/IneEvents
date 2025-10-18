@@ -150,7 +150,7 @@ const addNewEvent = async () => {
   loading.value = true
   
   try {
-    const response = await axios.post('http://localhost:5000/api/events/create', {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/events/create`, {
       title: title.value,
       description: description.value,
       type: type.value,

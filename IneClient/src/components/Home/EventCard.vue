@@ -137,7 +137,7 @@ const toggleLike = async () => {
   isLiked.value = !isLiked.value
   
   try {
-    const response = await axios.post(`http://localhost:5000/api/events/${props.id}/like`)
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/events/${props.id}/like`)
     
     // Update with server response
     isLiked.value = response.data.liked

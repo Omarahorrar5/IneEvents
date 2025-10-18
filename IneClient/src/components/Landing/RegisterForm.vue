@@ -65,7 +65,7 @@ const message = ref('')
 
 async function register() {
   try {
-    const res = await axios.post('http://localhost:5000/api/register', {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/register`, {
       username: username.value,
       email: email.value,
       password: password.value
@@ -81,7 +81,7 @@ async function register() {
 }
 
 async function fetchUsers() {
-  const res = await axios.get('http://localhost:5000/api/users')
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/users`)
   users.value = res.data
 }
 

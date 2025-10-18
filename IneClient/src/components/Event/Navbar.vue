@@ -49,7 +49,7 @@ onMounted(async () => {
 const checkLikeStatus = async () => {
   try {
     console.log('Fetching like status...')
-    const response = await fetch(`http://localhost:5000/api/events/${eventId}/like-status`)
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/events/${eventId}/like-status`)
     
     if (response.ok) {
       const data = await response.json()
@@ -71,7 +71,7 @@ const toggleLike = async () => {
   isLoading.value = true
   
   try {
-    const response = await fetch(`http://localhost:5000/api/events/${eventId}/like`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/events/${eventId}/like`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

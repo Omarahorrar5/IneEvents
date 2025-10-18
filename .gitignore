@@ -1,4 +1,5 @@
 IneClient/node_modules
+IneClient/.env
 IneServer/node_modules
 IneServer/.env
 IneServer/.vscode

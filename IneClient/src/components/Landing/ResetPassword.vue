@@ -55,7 +55,7 @@ const message = ref('')
 async function reset() {
 
   try {
-    const res = await axios.post('http://localhost:5000/api/resetpassword', {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/resetpassword`, {
       email: email.value,
       newpassword: newpassword.value
     })

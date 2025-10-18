@@ -81,7 +81,7 @@ const sortedSchools = computed(() => {
 const fetchSchools = async () => {
     try {
         loading.value = true
-        const response = await axios.get('http://localhost:5000/api/schools')
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/schools`)
         schools.value = response.data
     } catch (error) {
         console.error('Error fetching schools:', error)

@@ -69,7 +69,7 @@ const props = defineProps({
 const emit = defineEmits(['events-loaded'])
 
 async function fetchEvents() {
-    const res = await axios.get('http://localhost:5000/api/events');
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/events`);
     events.value = res.data
     // Emit events to parent so it can pass them to filters
     emit('events-loaded', res.data)

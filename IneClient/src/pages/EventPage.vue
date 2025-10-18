@@ -55,7 +55,7 @@ const formattedDate = computed(() => {
 
 onMounted(async () => {
   try {
-    const res = await axios.get(`http://localhost:5000/api/events/${eventId}`)
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/events/${eventId}`)
     event.value = res.data
   }
 

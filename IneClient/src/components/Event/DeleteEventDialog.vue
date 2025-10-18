@@ -73,7 +73,7 @@ const deleteEvent = async () => {
   loading.value = true
 
   try {
-    await axios.post(`http://localhost:5000/api/events/delete/${props.eventData.id}`)
+    await axios.post(`${import.meta.env.VITE_API_URL}/events/delete/${props.eventData.id}`)
     
     console.log('Event deleted successfully')
     
