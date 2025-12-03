@@ -101,26 +101,31 @@ pipeline {
                 script {
                     echo '==> Deploying application locally'
                     
-                    // Create network if it doesn't exist, not mandatory in this case
-                    // There no container-to-container communication here
-                    // The browser calls the front and back + port forwarding
+                    // Create network if it doesn't exist
                     sh 'docker network create ine_network || true'
                     
-                    // Deploy Backend
+                    // Deploy Backend with environment variables from Jenkins credentials
                     echo '==> Deploying Backend'
                     sh "docker pull ${IMAGE_BACKEND_NAME}:latest"
                     sh 'docker stop ineevents_server || true'
                     sh 'docker rm ineevents_server || true'
                     
-                    sh """
-                        docker run -d \\
-                          --name ineevents_server \\
-                          --network ine_network \\
-                          -p 5000:5000 \\
-                          --env-file ./IneServer/.env \\
-                          --restart=always \\
-                          ${IMAGE_BACKEND_NAME}:latest
-                    """
+                    // Load environment variables from Jenkins credentials
+                    withCredentials([
+                        string(credentialsId: 'supabase-url', variable: 'SUPABASE_URL'),
+                        string(credentialsId: 'supabase-key', variable: 'SUPABASE_KEY')
+                    ]) {
+                        sh """
+                            docker run -d \\
+                              --name ineevents_server \\
+                              --network ine_network \\
+                              -p 5000:5000 \\
+                              -e SUPABASE_URL='${SUPABASE_URL}' \\
+                              -e SUPABASE_KEY='${SUPABASE_KEY}' \\
+                              --restart=always \\
+                              ${IMAGE_BACKEND_NAME}:latest
+                        """
+                    }
                     
                     // Deploy Frontend
                     echo '==> Deploying Frontend'
