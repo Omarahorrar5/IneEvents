@@ -99,7 +99,9 @@ pipeline {
                 script {
                     echo '==> Deploying application locally'
                     
-                    // Create network if it doesn't exist
+                    // Create network if it doesn't exist, not mandatory in this case
+                    // There no container-to-container communication here
+                    // The browser calls the front and back + port forwarding
                     sh 'docker network create ine_network || true'
                     
                     // Deploy Backend
