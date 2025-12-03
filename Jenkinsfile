@@ -80,7 +80,9 @@ pipeline {
                 script {
                     echo '==> Logging into DockerHub and pushing images'
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
+                        sh '''
+                            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                        '''
                         
                         echo "==> Pushing Frontend images"
                         sh "docker push ${IMAGE_FRONTEND_NAME}:latest"
