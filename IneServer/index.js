@@ -12,14 +12,19 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors()); // Allow frontend to talk to backend
-app.use(express.json()); // Accept JSON requests
+// Configure CORS properly
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://localhost:80'],
+  credentials: true
+}));
 
-app.use('/api', authRoutes); // Use /api/register, /api/login, /api/users...
-app.use('/api', likesRoutes); // Use likes api
-app.use('/api', registrationsRoutes) // Use registrations api
-app.use('/api', eventsRoutes); // Use /api/events
-app.use('/api', schoolsRoutes)
+app.use(express.json());
+
+app.use('/api', authRoutes);
+app.use('/api', likesRoutes);
+app.use('/api', registrationsRoutes);
+app.use('/api', eventsRoutes);
+app.use('/api', schoolsRoutes);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
