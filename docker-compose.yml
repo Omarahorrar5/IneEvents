@@ -1,7 +1,9 @@
 version: '3.9'
 services:
   ineserver:
-    image: omarahorrar/ineevents-ineserver:latest
+    build:
+      context: ./IneServer
+      dockerfile: Dockerfile
     container_name: ineevents_server
     ports:
       - "5000:5000"
@@ -11,7 +13,9 @@ services:
       - ine_network
 
   ineclient:
-    image: omarahorrar/ineevents-ineclient:latest
+    build:
+      context: ./IneClient
+      dockerfile: Dockerfile
     container_name: ineevents_client
     ports:
       - "5173:80"
