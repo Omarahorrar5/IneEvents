@@ -36,7 +36,7 @@ pipeline {
                 script {
                     echo '==> Building frontend application'
                     dir('IneClient') {
-                        sh 'npm run build' 
+                        sh 'VITE_API_URL=/api npm run build'
                     }
                 }
             }
@@ -47,7 +47,8 @@ pipeline {
                 script {
                     echo '==> Building frontend Docker image'
                     dir('IneClient') {
-                        docker.build("${IMAGE_FRONTEND_NAME}", "--pull -t ${IMAGE_FRONTEND_NAME}:${BUILD_NUMBER} -t ${IMAGE_FRONTEND_NAME}:latest .")
+                        // Pass VITE_API_URL as build arg
+                        docker.build("${IMAGE_FRONTEND_NAME}", "--pull --build-arg VITE_API_URL=/api -t ${IMAGE_FRONTEND_NAME}:${BUILD_NUMBER} -t ${IMAGE_FRONTEND_NAME}:latest .")
                     }
                 }
             }
@@ -119,6 +120,7 @@ pipeline {
                             docker run -d \\
                               --name ineevents_server \\
                               --network ine_network \\
+                              --network-alias ineserver \\
                               -p 5000:5000 \\
                               -e SUPABASE_URL='${SUPABASE_URL}' \\
                               -e SUPABASE_KEY='${SUPABASE_KEY}' \\
