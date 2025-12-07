@@ -33,7 +33,6 @@ pipeline {
                 script {
                     echo '==> Building frontend Docker image'
                     dir('IneClient') {
-                        // Pass VITE_API_URL as build arg
                         docker.build("${IMAGE_FRONTEND_NAME}", "--pull --build-arg VITE_API_URL=/api -t ${IMAGE_FRONTEND_NAME}:${BUILD_NUMBER} -t ${IMAGE_FRONTEND_NAME}:latest .")
                     }
                 }
@@ -58,6 +57,45 @@ pipeline {
                     dir('IneServer') { 
                         docker.build("${IMAGE_BACKEND_NAME}", "--pull -t ${IMAGE_BACKEND_NAME}:${BUILD_NUMBER} -t ${IMAGE_BACKEND_NAME}:latest .")
                     }
+                }
+            }
+        }
+        
+        stage('Security Scan with Trivy') {
+            steps {
+                script {
+                    echo '==> Running Trivy security scans'
+                    
+                    // Create .trivyignore file in workspace root to ignore specific CVEs
+                    sh '''
+                        cat > .trivyignore << 'EOF'
+# Backend - glob vulnerability (transitive dependency, accepted risk)
+# Risk: Command injection via malicious filenames - low risk for our use case
+CVE-2025-64756
+EOF
+                        echo "==> Contents of .trivyignore:"
+                        cat .trivyignore
+                    '''
+                    
+                    echo '==> Scanning Frontend Image'
+                    sh """
+                        trivy image --severity HIGH,CRITICAL \
+                          --ignorefile .trivyignore \
+                          --exit-code 0 \
+                          --format table \
+                          ${IMAGE_FRONTEND_NAME}:latest
+                    """
+                    
+                    echo '==> Scanning Backend Image'
+                    sh """
+                        trivy image --severity HIGH,CRITICAL \
+                          --ignorefile .trivyignore \
+                          --exit-code 0 \
+                          --format table \
+                          ${IMAGE_BACKEND_NAME}:latest
+                    """
+                    
+                    echo '✅ Security scans completed - all known vulnerabilities accepted'
                 }
             }
         }
