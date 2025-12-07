@@ -23,21 +23,7 @@ pipeline {
         stage('Install Frontend Dependencies') {
             steps {
                 script {
-                    echo '==> Installing frontend dependencies'
-                    dir('IneClient') { 
-                        sh 'npm install'
-                    }
-                }
-            }
-        }
-
-        stage('Build Frontend Application') {
-            steps {
-                script {
-                    echo '==> Building frontend application'
-                    dir('IneClient') {
-                        sh 'VITE_API_URL=/api npm run build'
-                    }
+                    echo '==> Skipping manual frontend build - Docker will handle it'
                 }
             }
         }
