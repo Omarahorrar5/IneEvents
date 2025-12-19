@@ -27,17 +27,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Build Frontend Docker Image') {
-            steps {
-                script {
-                    echo '==> Building frontend Docker image'
-                    dir('IneClient') {
-                        docker.build("${IMAGE_FRONTEND_NAME}", "--pull --build-arg VITE_API_URL=/api -t ${IMAGE_FRONTEND_NAME}:${BUILD_NUMBER} -t ${IMAGE_FRONTEND_NAME}:latest .")
-                    }
-                }
-            }
-        }
         
         stage('Install Backend Dependencies') {
             steps {
@@ -45,6 +34,56 @@ pipeline {
                     echo '==> Installing backend dependencies'
                     dir('IneServer') { 
                         sh 'npm install'
+                    }
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    echo '==> Running SonarQube Analysis'
+                    
+                    withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                        
+                        // Analyze Backend
+                        echo '==> Analyzing Backend Code'
+                        dir('IneServer') {
+                            sh """
+                                docker run --rm \
+                                  --network host \
+                                  -v "\$(pwd):/usr/src" \
+                                  sonarsource/sonar-scanner-cli \
+                                  -Dsonar.host.url=http://localhost:9000 \
+                                  -Dsonar.login=\${SONAR_TOKEN}
+                            """
+                        }
+                        
+                        // Analyze Frontend
+                        echo '==> Analyzing Frontend Code'
+                        dir('IneClient') {
+                            sh """
+                                docker run --rm \
+                                  --network host \
+                                  -v "\$(pwd):/usr/src" \
+                                  sonarsource/sonar-scanner-cli \
+                                  -Dsonar.host.url=http://localhost:9000 \
+                                  -Dsonar.login=\${SONAR_TOKEN}
+                            """
+                        }
+                    }
+                    
+                    echo '✅ SonarQube analysis completed'
+                }
+            }
+        }
+
+        stage('Build Frontend Docker Image') {
+            steps {
+                script {
+                    echo '==> Building frontend Docker image'
+                    dir('IneClient') {
+                        docker.build("${IMAGE_FRONTEND_NAME}", "--pull --build-arg VITE_API_URL=/api -t ${IMAGE_FRONTEND_NAME}:${BUILD_NUMBER} -t ${IMAGE_FRONTEND_NAME}:latest .")
                     }
                 }
             }
@@ -66,11 +105,8 @@ pipeline {
                 script {
                     echo '==> Running Trivy security scans'
                     
-                    // Create .trivyignore file in workspace root to ignore specific CVEs
                     sh '''
                         cat > .trivyignore << 'EOF'
-# Backend - glob vulnerability (transitive dependency, accepted risk)
-# Risk: Command injection via malicious filenames - low risk for our use case
 CVE-2025-64756
 EOF
                         echo "==> Contents of .trivyignore:"
@@ -95,7 +131,7 @@ EOF
                           ${IMAGE_BACKEND_NAME}:latest
                     """
                     
-                    echo '✅ Security scans completed - all known vulnerabilities accepted'
+                    echo '✅ Security scans completed'
                 }
             }
         }
@@ -126,16 +162,13 @@ EOF
                 script {
                     echo '==> Deploying application locally'
                     
-                    // Create network if it doesn't exist
                     sh 'docker network create ine_network || true'
                     
-                    // Deploy Backend with environment variables from Jenkins credentials
                     echo '==> Deploying Backend'
                     sh "docker pull ${IMAGE_BACKEND_NAME}:latest"
                     sh 'docker stop ineevents_server || true'
                     sh 'docker rm ineevents_server || true'
                     
-                    // Load environment variables from Jenkins credentials
                     withCredentials([
                         string(credentialsId: 'supabase-url', variable: 'SUPABASE_URL'),
                         string(credentialsId: 'supabase-key', variable: 'SUPABASE_KEY')
@@ -153,7 +186,6 @@ EOF
                         """
                     }
                     
-                    // Deploy Frontend
                     echo '==> Deploying Frontend'
                     sh "docker pull ${IMAGE_FRONTEND_NAME}:latest"
                     sh 'docker stop ineevents_client || true'
