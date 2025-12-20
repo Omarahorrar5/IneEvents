@@ -50,5 +50,3 @@ spec:
             port: 5000
           initialDelaySeconds: 10
           periodSeconds: 5
-      imagePullSecrets:
-      - name: dockerhub-secret

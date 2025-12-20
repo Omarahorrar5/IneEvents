@@ -157,52 +157,79 @@ EOF
             }
         }
         
-        stage('Deploy Application') {
+        // Kubernetes Deployment Stage
+        stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    echo '==> Deploying application locally'
+                    echo '==> Deploying to Kubernetes (Minikube)'
                     
-                    sh 'docker network create ine_network || true'
-                    
-                    echo '==> Deploying Backend'
-                    sh "docker pull ${IMAGE_BACKEND_NAME}:latest"
-                    sh 'docker stop ineevents_server || true'
-                    sh 'docker rm ineevents_server || true'
-                    
+                    // Ensure ConfigMap and Secret exist
+                    echo '==> Checking Kubernetes secrets and configmaps'
                     withCredentials([
                         string(credentialsId: 'supabase-url', variable: 'SUPABASE_URL'),
                         string(credentialsId: 'supabase-key', variable: 'SUPABASE_KEY')
                     ]) {
-                        sh """
-                            docker run -d \\
-                              --name ineevents_server \\
-                              --network ine_network \\
-                              --network-alias ineserver \\
-                              -p 5000:5000 \\
-                              -e SUPABASE_URL='${SUPABASE_URL}' \\
-                              -e SUPABASE_KEY='${SUPABASE_KEY}' \\
-                              --restart=always \\
-                              ${IMAGE_BACKEND_NAME}:latest
-                        """
+                        sh '''
+                            # Check if ConfigMap exists, create if not
+                            if ! kubectl get configmap ineevents-config &>/dev/null; then
+                                echo "Creating ConfigMap from Jenkins credentials..."
+                                kubectl create configmap ineevents-config \
+                                  --from-literal=supabase-url="${SUPABASE_URL}"
+                            else
+                                echo "ConfigMap already exists"
+                            fi
+                            
+                            # Check if Secret exists, create if not
+                            if ! kubectl get secret ineevents-secrets &>/dev/null; then
+                                echo "Creating Secret from Jenkins credentials..."
+                                kubectl create secret generic ineevents-secrets \
+                                  --from-literal=supabase-key="${SUPABASE_KEY}"
+                            else
+                                echo "Secret already exists"
+                            fi
+                        '''
                     }
                     
-                    echo '==> Deploying Frontend'
-                    sh "docker pull ${IMAGE_FRONTEND_NAME}:latest"
-                    sh 'docker stop ineevents_client || true'
-                    sh 'docker rm ineevents_client || true'
+                    // Apply Kubernetes manifests
+                    echo '==> Applying Kubernetes manifests'
+                    sh '''
+                        kubectl apply -f k8s/backend-deployment.yaml
+                        kubectl apply -f k8s/backend-service.yaml
+                        kubectl apply -f k8s/frontend-deployment.yaml
+                        kubectl apply -f k8s/frontend-service.yaml
+                    '''
                     
-                    sh """
-                        docker run -d \\
-                          --name ineevents_client \\
-                          --network ine_network \\
-                          -p 5173:80 \\
-                          --restart=always \\
-                          ${IMAGE_FRONTEND_NAME}:latest
-                    """
+                    // Trigger rolling update to pull latest images
+                    echo '==> Triggering rolling update'
+                    sh '''
+                        kubectl rollout restart deployment ineevents-backend
+                        kubectl rollout restart deployment ineevents-frontend
+                    '''
                     
-                    echo '==> Deployment completed'
-                    echo 'Frontend available at: http://localhost:5173'
-                    echo 'Backend available at: http://localhost:5000'
+                    // Wait for rollout to complete
+                    echo '==> Waiting for deployments to be ready'
+                    sh '''
+                        kubectl rollout status deployment ineevents-backend --timeout=5m
+                        kubectl rollout status deployment ineevents-frontend --timeout=5m
+                    '''
+                    
+                    // Display deployment status
+                    echo '==> Kubernetes Deployment Status'
+                    sh '''
+                        echo "=========================================="
+                        echo "Pods:"
+                        kubectl get pods -l app=ineevents-backend
+                        kubectl get pods -l app=ineevents-frontend
+                        echo ""
+                        echo "Services:"
+                        kubectl get services | grep ineevents
+                        echo ""
+                        echo "Application URLs:"
+                        echo "Frontend: http://$(minikube ip):30080"
+                        echo "=========================================="
+                    '''
+                    
+                    echo '✅ Kubernetes deployment completed successfully'
                 }
             }
         }
@@ -215,14 +242,30 @@ EOF
         }
         success {
             echo '✅ Pipeline completed successfully!'
-            echo 'Services are running:'
-            sh 'docker ps | grep ineevents'
+            sh '''
+                echo "=========================================="
+                echo "Deployment Summary:"
+                echo ""
+                echo "Kubernetes Pods:"
+                kubectl get pods | grep ineevents || echo "No K8s pods found"
+                echo ""
+                echo "Docker Containers:"
+                docker ps | grep ineevents || echo "No Docker containers found"
+                echo "=========================================="
+            '''
         }
         failure {
             echo '❌ Pipeline failed!'
-            echo 'Checking container logs...'
-            sh 'docker logs ineevents_server || true'
-            sh 'docker logs ineevents_client || true'
+            echo 'Checking logs...'
+            sh '''
+                echo "Kubernetes Pod Logs:"
+                kubectl logs -l app=ineevents-backend --tail=50 || true
+                kubectl logs -l app=ineevents-frontend --tail=50 || true
+                echo ""
+                echo "Docker Container Logs:"
+                docker logs ineevents_server --tail=50 || true
+                docker logs ineevents_client --tail=50 || true
+            '''
         }
     }
 }

@@ -6,7 +6,7 @@
       class="bg-card p-8 rounded-xl shadow-neon w-full max-w-xl mr-4 md:mr-12 space-y-6"
     >
 
-      <h2 class="text-2xl font-semibold text-textMain">Login to your account</h2>
+      <h2 class="text-2xl font-semibold text-textMain">Sign in to your account</h2>
 
       <div>
         <label class="block text-sm font-medium text-textMain mb-1">Email</label>
