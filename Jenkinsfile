@@ -161,6 +161,15 @@ EOF
         stage('Deploy to Kubernetes') {
             steps {
                 script {
+                    // Point to your working kubeconfig
+                    sh '''
+                        export KUBECONFIG=/home/omar/.kube/config
+                        export HOME=/home/omar
+                        
+                        # Test connection
+                        kubectl cluster-info
+                    '''
+
                     echo '==> Deploying to Kubernetes'
                     
                     // Ensure ConfigMap and Secret exist
