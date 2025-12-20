@@ -4,3 +4,4 @@ IneServer/node_modules
 IneServer/.env
 IneServer/.vscode
 IneClient/.vscode
+k8s/backend-secret.yaml
