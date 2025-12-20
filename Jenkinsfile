@@ -157,19 +157,9 @@ EOF
             }
         }
         
-        // Kubernetes Deployment Stage
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    // Point to your working kubeconfig
-                    sh '''
-                        export KUBECONFIG=/home/omar/.kube/config
-                        export HOME=/home/omar
-                        
-                        # Test connection
-                        kubectl cluster-info
-                    '''
-
                     echo '==> Deploying to Kubernetes'
                     
                     // Ensure ConfigMap and Secret exist
@@ -183,7 +173,7 @@ EOF
                             if ! kubectl get configmap ineevents-config &>/dev/null; then
                                 echo "Creating ConfigMap from Jenkins credentials..."
                                 kubectl create configmap ineevents-config \
-                                  --from-literal=supabase-url="${SUPABASE_URL}"
+                                --from-literal=supabase-url="${SUPABASE_URL}"
                             else
                                 echo "ConfigMap already exists"
                             fi
@@ -192,7 +182,7 @@ EOF
                             if ! kubectl get secret ineevents-secrets &>/dev/null; then
                                 echo "Creating Secret from Jenkins credentials..."
                                 kubectl create secret generic ineevents-secrets \
-                                  --from-literal=supabase-key="${SUPABASE_KEY}"
+                                --from-literal=supabase-key="${SUPABASE_KEY}"
                             else
                                 echo "Secret already exists"
                             fi
