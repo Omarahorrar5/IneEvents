@@ -169,23 +169,18 @@ EOF
                         string(credentialsId: 'supabase-key', variable: 'SUPABASE_KEY')
                     ]) {
                         sh '''
-                            # Check if ConfigMap exists, create if not
-                            if ! kubectl get configmap ineevents-config &>/dev/null; then
-                                echo "Creating ConfigMap from Jenkins credentials..."
-                                kubectl create configmap ineevents-config \
-                                --from-literal=supabase-url="${SUPABASE_URL}"
-                            else
-                                echo "ConfigMap already exists"
-                            fi
+                            # Delete existing resources (ignore errors if they don't exist)
+                            kubectl delete configmap ineevents-config --ignore-not-found=true
+                            kubectl delete secret ineevents-secrets --ignore-not-found=true
                             
-                            # Check if Secret exists, create if not
-                            if ! kubectl get secret ineevents-secrets &>/dev/null; then
-                                echo "Creating Secret from Jenkins credentials..."
-                                kubectl create secret generic ineevents-secrets \
-                                --from-literal=supabase-key="${SUPABASE_KEY}"
-                            else
-                                echo "Secret already exists"
-                            fi
+                            # Create fresh resources
+                            echo "Creating ConfigMap from Jenkins credentials..."
+                            kubectl create configmap ineevents-config \
+                            --from-literal=supabase-url="${SUPABASE_URL}"
+                            
+                            echo "Creating Secret from Jenkins credentials..."
+                            kubectl create secret generic ineevents-secrets \
+                            --from-literal=supabase-key="${SUPABASE_KEY}"
                         '''
                     }
                     
