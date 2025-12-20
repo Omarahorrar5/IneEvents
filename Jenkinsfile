@@ -161,7 +161,7 @@ EOF
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    echo '==> Deploying to Kubernetes (Minikube)'
+                    echo '==> Deploying to Kubernetes'
                     
                     // Ensure ConfigMap and Secret exist
                     echo '==> Checking Kubernetes secrets and configmaps'
