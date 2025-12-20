@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: ineevents-config
-data:
-  supabase-url: "https://jvzodhjderfezyqeiyqv.supabase.com"

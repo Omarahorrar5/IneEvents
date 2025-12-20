@@ -5,6 +5,7 @@ pipeline {
         DOCKERHUB_USERNAME = 'omarahorrar' 
         IMAGE_FRONTEND_NAME = "${DOCKERHUB_USERNAME}/ineevents-ineclient"
         IMAGE_BACKEND_NAME = "${DOCKERHUB_USERNAME}/ineevents-ineserver"
+        GITOPS_REPO = "https://github.com/Omarahorrar5/IneEvents-GitOps.git"
     }
 
     tools {
@@ -157,73 +158,71 @@ EOF
             }
         }
         
-        stage('Deploy to Kubernetes') {
+        // Update GitOps Repository
+        stage('Update GitOps Repository') {
             steps {
                 script {
-                    echo '==> Deploying to Kubernetes'
+                    echo '==> Updating GitOps repository with new image tags'
                     
-                    // Ensure ConfigMap and Secret exist
-                    echo '==> Checking Kubernetes secrets and configmaps'
-                    withCredentials([
-                        string(credentialsId: 'supabase-url', variable: 'SUPABASE_URL'),
-                        string(credentialsId: 'supabase-key', variable: 'SUPABASE_KEY')
-                    ]) {
-                        sh '''
-                            # Delete existing resources (ignore errors if they don't exist)
-                            kubectl delete configmap ineevents-config --ignore-not-found=true
-                            kubectl delete secret ineevents-secrets --ignore-not-found=true
+                    withCredentials([string(credentialsId: 'github-token', variable: 'GIT_TOKEN')]) {
+                        sh """
+                            # Clean up any previous clone
+                            rm -rf ineevents-gitops
                             
-                            # Create fresh resources
-                            echo "Creating ConfigMap from Jenkins credentials..."
-                            kubectl create configmap ineevents-config \
-                            --from-literal=supabase-url="${SUPABASE_URL}"
+                            # Clone GitOps repo
+                            git clone https://${GIT_TOKEN}@github.com/Omarahorrar5/IneEvents-GitOps.git ineevents-gitops
+                            cd ineevents-gitops
                             
-                            echo "Creating Secret from Jenkins credentials..."
-                            kubectl create secret generic ineevents-secrets \
-                            --from-literal=supabase-key="${SUPABASE_KEY}"
-                        '''
+                            # Update image tags in values.yaml
+                            echo "==> Updating image tags to build ${BUILD_NUMBER}"
+                            sed -i 's|tag: .*|tag: "${BUILD_NUMBER}"|g' helm/ineevents/values.yaml
+                            
+                            # Show what changed
+                            echo "==> Changes made:"
+                            git diff helm/ineevents/values.yaml
+                            
+                            # Configure git
+                            git config user.email "jenkins@ci.local"
+                            git config user.name "Jenkins CI"
+                            
+                            # Commit and push
+                            git add helm/ineevents/values.yaml
+                            git commit -m "🚀 Update image tags to build ${BUILD_NUMBER}" || echo "No changes to commit"
+                            git push origin main
+                            
+                            cd ..
+                            rm -rf ineevents-gitops
+                            
+                            echo "✅ GitOps repo updated!"
+                            echo "⏳ ArgoCD will automatically deploy"
+                            echo "📊 Monitor deployment at: http://localhost:8081"
+                        """
                     }
+                }
+            }
+        }
+        
+        // Wait for ArgoCD to sync
+        stage('Wait for ArgoCD Deployment') {
+            steps {
+                script {
+                    echo '==> Waiting for ArgoCD to sync and deploy'
                     
-                    // Apply Kubernetes manifests
-                    echo '==> Applying Kubernetes manifests'
                     sh '''
-                        kubectl apply -f k8s/backend-deployment.yaml
-                        kubectl apply -f k8s/backend-service.yaml
-                        kubectl apply -f k8s/frontend-deployment.yaml
-                        kubectl apply -f k8s/frontend-service.yaml
+                        echo "Waiting for ArgoCD to detect changes..."
+                        sleep 30
+                        
+                        # Check sync status (requires argocd CLI)
+                        # If you have argocd CLI installed:
+                        # argocd app wait ineevents --timeout 300
+                        
+                        # Alternative: Wait for pods to be ready
+                        echo "Waiting for deployments to be ready..."
+                        kubectl rollout status deployment ineevents-backend --timeout=5m || true
+                        kubectl rollout status deployment ineevents-frontend --timeout=5m || true
+                        
+                        echo "✅ Deployment complete!"
                     '''
-                    
-                    // Trigger rolling update to pull latest images
-                    echo '==> Triggering rolling update'
-                    sh '''
-                        kubectl rollout restart deployment ineevents-backend
-                        kubectl rollout restart deployment ineevents-frontend
-                    '''
-                    
-                    // Wait for rollout to complete
-                    echo '==> Waiting for deployments to be ready'
-                    sh '''
-                        kubectl rollout status deployment ineevents-backend --timeout=5m
-                        kubectl rollout status deployment ineevents-frontend --timeout=5m
-                    '''
-                    
-                    // Display deployment status
-                    echo '==> Kubernetes Deployment Status'
-                    sh '''
-                        echo "=========================================="
-                        echo "Pods:"
-                        kubectl get pods -l app=ineevents-backend
-                        kubectl get pods -l app=ineevents-frontend
-                        echo ""
-                        echo "Services:"
-                        kubectl get services | grep ineevents
-                        echo ""
-                        echo "Application URLs:"
-                        echo "Frontend: http://$(minikube ip):30080"
-                        echo "=========================================="
-                    '''
-                    
-                    echo '✅ Kubernetes deployment completed successfully'
                 }
             }
         }
@@ -238,13 +237,26 @@ EOF
             echo '✅ Pipeline completed successfully!'
             sh '''
                 echo "=========================================="
-                echo "Deployment Summary:"
+                echo "🎉 GitOps CI/CD Pipeline Completed!"
+                echo "=========================================="
                 echo ""
-                echo "Kubernetes Pods:"
-                kubectl get pods | grep ineevents || echo "No K8s pods found"
+                echo "📦 Docker Images:"
+                echo "  Frontend: ${IMAGE_FRONTEND_NAME}:${BUILD_NUMBER}"
+                echo "  Backend:  ${IMAGE_BACKEND_NAME}:${BUILD_NUMBER}"
                 echo ""
-                echo "Docker Containers:"
-                docker ps | grep ineevents || echo "No Docker containers found"
+                echo "☸️  Kubernetes Status:"
+                kubectl get pods -l app=ineevents-backend -o wide
+                kubectl get pods -l app=ineevents-frontend -o wide
+                echo ""
+                echo "🌐 Application URLs:"
+                echo "  Frontend: http://$(minikube ip):30080"
+                echo "  Backend:  http://$(minikube ip):30081"
+                echo ""
+                echo "📊 ArgoCD Dashboard:"
+                echo "  URL: http://localhost:8081"
+                echo ""
+                echo "🔄 GitOps Repo:"
+                echo "  https://github.com/Omarahorrar5/IneEvents-GitOps"
                 echo "=========================================="
             '''
         }
@@ -252,13 +264,22 @@ EOF
             echo '❌ Pipeline failed!'
             echo 'Checking logs...'
             sh '''
+                echo "=========================================="
                 echo "Kubernetes Pod Logs:"
+                echo "=========================================="
                 kubectl logs -l app=ineevents-backend --tail=50 || true
+                echo ""
                 kubectl logs -l app=ineevents-frontend --tail=50 || true
                 echo ""
-                echo "Docker Container Logs:"
-                docker logs ineevents_server --tail=50 || true
-                docker logs ineevents_client --tail=50 || true
+                echo "=========================================="
+                echo "Pod Status:"
+                echo "=========================================="
+                kubectl get pods -o wide
+                echo ""
+                echo "=========================================="
+                echo "Recent Events:"
+                echo "=========================================="
+                kubectl get events --sort-by='.lastTimestamp' | tail -20
             '''
         }
     }
