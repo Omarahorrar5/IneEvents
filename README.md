@@ -34,15 +34,7 @@ Developer Commit
  Prometheus & Grafana
 ```
 
----
 
-## 🔄 CI/CD Pipeline Diagram
-
-> 📌 **CI/CD & GitOps Pipeline**
-
-![CI/CD Pipeline Diagram](./docs/pipeline.png)
-
-> *This diagram illustrates the complete DevSecOps pipeline, from source code commit to declarative Kubernetes deployment using ArgoCD.*
 
 ---
 
