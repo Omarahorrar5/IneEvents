@@ -10,29 +10,9 @@ Beyond application development, this project focuses heavily on **DevSecOps prac
 
 ## 🧩 Architecture Overview
 
-**High-level flow:**
-
-```
-Developer Commit
-      ↓
-   Jenkins CI
-      ↓
- SonarQube (Code Quality)
-      ↓
- Docker Build
-      ↓
- Trivy (Image Security Scan)
-      ↓
- Docker Hub (Registry)
-      ↓
- GitOps Repo (Helm values update)
-      ↓
- ArgoCD
-      ↓
- Kubernetes (Minikube)
-      ↓
- Prometheus & Grafana
-```
+<p align="center">
+  <img src="./pipeline.png" alt="CI/CD & DevSecOps Pipeline" width="800"/>
+</p>
 
 
 
